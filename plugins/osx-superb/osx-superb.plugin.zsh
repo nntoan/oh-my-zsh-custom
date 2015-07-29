@@ -1,4 +1,4 @@
-export OSX_SUPERB = $ZSH_CUSTOM/plugins/osx-superb
+export OSX_SUPERB=/Users/NNToan/.oh-my-zsh-custom/plugins/osx-superb
 
 # Quick access
 alias superb='vim ~/.oh-my-zsh-custom/plugins/superb-aliases/superb-aliases.plugin.zsh'
@@ -19,12 +19,12 @@ function _restartdnsmasq()
 #
 function _doswapdnshome()
 {
-   sudo rsync $ZSH_CUSTOM/plugins/osx-superb/files/dnsmasq/dnsmasq.home $(brew --prefix)/etc/dnsmasq.conf
+   sudo rsync $OSX_SUPERB/files/dnsmasq/dnsmasq.home $(brew --prefix)/etc/dnsmasq.conf
 }
 #
 function _doswapdnswork()
 {
-   sudo rsync $ZSH_CUSTOM/plugins/osx-superb/files/dnsmasq/dnsmasq.work $(brew --prefix)/etc/dnsmasq.conf
+   sudo rsync $OSX_SUPERB/files/dnsmasq/dnsmasq.work $(brew --prefix)/etc/dnsmasq.conf
 }
 #
 function mydns()
