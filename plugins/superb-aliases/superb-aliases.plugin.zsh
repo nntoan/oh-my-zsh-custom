@@ -53,7 +53,6 @@ alias whereami=display_info
 
 alias nano='nano -W -m'
 alias wget='wget -c'
-alias c='clear'
 alias cls='clear'
 alias contents='/bin/tar -tzf'
 
