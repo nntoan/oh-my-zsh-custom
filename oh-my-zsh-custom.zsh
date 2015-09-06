@@ -11,6 +11,6 @@ fi
 
 # Setup iTerm2 Shell Integration...
 if [ "$ITERM2_SHELL_INTEGRATION" != "true" ]; then
-    env ZSH=$ZSH ITERM2_SHELL_INTEGRATION=$ITERM2_SHELL_INTEGRATION
+    env ZSH_CUSTOM=$ZSH_CUSTOM ITERM2_SHELL_INTEGRATION=$ITERM2_SHELL_INTEGRATION
     source $ZSH_CUSTOM/tools/iterm2_shell_integration.zsh
 fi
