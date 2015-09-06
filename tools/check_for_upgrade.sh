@@ -13,7 +13,7 @@ function _update_zsh_custom_update() {
 function _upgrade_zsh_custom() {
   env ZSH_CUSTOM=$ZSH_CUSTOM /bin/sh $ZSH_CUSTOM/tools/upgrade.sh
   # update the zsh file
-  _update_zsh_update
+  _update_zsh_custom_update
 }
 
 epoch_target=$UPDATE_ZSH_DAYS
