@@ -58,11 +58,11 @@ function cwas_dev_up() {
         if [[ $? -eq 0 ]]; then
             vagrant ssh
         else
-            vagrant up &> /dev/null && echo $fg[red] "VM has been started successfully. Now, sit tight we are logging you in..." &&
-	    vagrant ssh
+	    echo "${fg[blue]}Start booting ${fg[green]}cwas-dev-machine${fg[blue]}, please be patient..."
+            vagrant up &> /dev/null && echo "${fg[green]}cwas-dev-machine ${fg[blue]}is ready to use now.${reset_color}" && vagrant ssh
         fi
    else
-       echo "Folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/c-forces.dev"
+       echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/c-forces.dev"
    fi
 }
 #
@@ -72,11 +72,11 @@ function cwas_dev_down() {
    if [[ $? -eq 0 ]]; then
        vagrant global-status | grep 'running' &> /dev/null
         if [[ $? -eq 0 ]]; then
-	    echo $fg[blue] "VM are going to shutting down..."
+	    echo "${fg[blue]}We are going to shutting down the ${fg[green]}cwas-dev-machine ${fg[blue]}..."
             vagrant halt &> /dev/null
-	    echo $fg[blue] "VM has been powered off. See you later!"
+	    echo "${fg[green}cwas-dev-machine ${fg[blue]}is already poweroff now. You are free to go!"
         fi
    else
-       echo "Folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/c-forces.dev"
+       echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/c-forces.dev"
    fi
 }
