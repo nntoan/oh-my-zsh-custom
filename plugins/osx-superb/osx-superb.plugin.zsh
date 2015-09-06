@@ -59,7 +59,7 @@ function cwas_dev_up() {
             vagrant ssh
         else
 	    echo "${fg[blue]}Start booting ${fg[green]}cwas-dev-machine${fg[blue]}, please be patient..."
-            vagrant up &> /dev/null && echo "${fg[green]}cwas-dev-machine ${fg[blue]}is ready to use now.${reset_color}" && vagrant ssh
+            vagrant up &> /dev/null && echo "${fg[green]}cwas-dev-machine ${fg[blue]}is ready to use. You're logging in now...${reset_color}" && vagrant ssh
         fi
    else
        echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/c-forces.dev"
