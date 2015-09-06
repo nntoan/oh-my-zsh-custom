@@ -10,8 +10,6 @@ then
   printf '\033[0;32m%s\033[0m\n' '                        /____/                       '
   printf '\033[0;34m%s\033[0m\n' 'Hooray! Oh My Zsh Custom has been updated and/or is at the current version.'
   printf '\033[0;34m%s\033[1m%s\033[0m\n' 'To keep up on the latest news and updates, follow us on github: ' 'https://github.com/nntoan/oh-my-zsh-custom'
-  printf '\033[0;34m%s\033[0m\n' 'Reloading Oh My Zsh...'
-  source ~/.zshrc
 else
   printf '\033[0;31m%s\033[0m\n' 'There was an error updating. Try again later?'
 fi
