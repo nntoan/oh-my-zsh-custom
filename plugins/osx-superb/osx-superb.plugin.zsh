@@ -72,9 +72,9 @@ function cwas_dev_down() {
    if [[ $? -eq 0 ]]; then
        vagrant global-status | grep 'running' &> /dev/null
         if [[ $? -eq 0 ]]; then
-	    echo "${fg[blue]}We are going to shutting down the ${fg[green]}cwas-dev-machine ${fg[blue]}..."
+	    echo "${fg[blue]}We are going to shutting down the ${fg[green]}cwas-dev-machine${fg[blue]}..."
             vagrant halt &> /dev/null
-	    echo "${fg[green}cwas-dev-machine ${fg[blue]}is already poweroff now. You are free to go!"
+	    echo "${fg[green]}cwas-dev-machine ${fg[blue]}is already poweroff now. You are free to go!"
         fi
    else
        echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/c-forces.dev"
