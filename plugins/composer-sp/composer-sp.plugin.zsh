@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------
-#          FILE:  composer.plugin.zsh
-#   DESCRIPTION:  oh-my-zsh composer plugin file.
+#          FILE:  composer-sp.plugin.zsh
+#   DESCRIPTION:  oh-my-zsh-custom composer serverpilot plugin file.
 #        AUTHOR:  Toan Nguyen (nntoan@protonmail.com)
 #       VERSION:  1.0.0
 # ------------------------------------------------------------------------------
@@ -31,19 +31,18 @@ _composer () {
   esac
 }
 
-compdef _composer composer
-compdef _composer composer.phar
+compdef _composer composer5.4-sp
+compdef _composer composer5.5-sp
+compdef _composer composer5.6-sp
+compdef _composer composer7.0-sp
 
-# Aliases
-alias c='composer'
-alias csu='composer self-update'
-alias cu='composer update'
-alias cr='composer require'
-alias ci='composer install'
-alias ccp='composer create-project'
-alias cdu='composer dump-autoload'
-alias cgu='composer global update'
-alias cgr='composer global require'
-
-# install composer in the current directory
-alias cget='curl -s https://getcomposer.org/installer | php'
+# Aliases (Composer PHP 5.6 only)
+alias c='composer5.6-sp'
+alias csu='composer5.6-sp self-update'
+alias cu='composer5.6-sp update'
+alias cr='composer5.6-sp require'
+alias ci='composer5.6-sp install'
+alias ccp='composer5.6-sp create-project'
+alias cdu='composer5.6-sp dump-autoload'
+alias cgu='composer5.6-sp global update'
+alias cgr='composer5.6-sp global require'
