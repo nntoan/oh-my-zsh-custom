@@ -1,10 +1,10 @@
 # Check for updates on initial load...
 if [ "$DISABLE_AUTO_UPDATE" != "true" ]; then
-    env ZSH=$ZSH DISABLE_UPDATE_PROMPT=$DISABLE_UPDATE_PROMPT zsh -f $ZSH_CUSTOM/tools/check_for_upgrade.sh
+    env ZSH_CUSTOM=$ZSH_CUSTOM DISABLE_UPDATE_PROMPT=$DISABLE_UPDATE_PROMPT zsh -f $ZSH_CUSTOM/tools/check_for_upgrade.sh
 fi
 
 # Set ZSH_CUSTOM to the path where your custom config files
-# and plugins exists, or else we will use the default custom/
+# and plugins exists, or else we will use the default ~/.oh-my-zsh-custom/
 if [[ -z "$ZSH_CUSTOM" ]]; then
     ZSH_CUSTOM="$ZSH-custom"
 fi
