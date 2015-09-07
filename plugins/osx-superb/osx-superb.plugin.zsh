@@ -18,11 +18,13 @@ function _restartdnsmasq()
 function _doswapdnshome()
 {
    sudo rsync $OSX_SUPERB/files/dnsmasq/dnsmasq.home $(brew --prefix)/etc/dnsmasq.conf
+   sudo rsync $OSX_SUPERB/files/hosts/hosts.home /private/etc/hosts
 }
 #
 function _doswapdnswork()
 {
    sudo rsync $OSX_SUPERB/files/dnsmasq/dnsmasq.work $(brew --prefix)/etc/dnsmasq.conf
+   sudo rsync $OSX_SUPERB/files/hosts/hosts.work /private/etc/hosts
 }
 #
 function mydns()
@@ -31,12 +33,12 @@ function mydns()
         home)
             echo $fg[green] "Switching dnsmasq configuration for $1 connection..."
             _doswapdnshome && _restartdnsmasq
-            echo $fg[green] "Connected to Internet using dnsmasq.$1"
+            echo $fg[green] "Connected to Internet using dnsmasq.$1 & hosts.$1"
             ;;
         work)
             echo $fg[green] "Switching dnsmasq configuration for $1 connection..."
             _doswapdnswork && _restartdnsmasq
-            echo $fg[green] "Connected to Internet using dnsmasq.$1"
+            echo $fg[green] "Connected to Internet using dnsmasq.$1 & hosts.$1"
             ;;
         restart)
             _restartdnsmasq
@@ -45,7 +47,7 @@ function mydns()
             echo $fg[blue] "Usage: mydns [home|work|restart]\n"
             echo "home     -- Change /etc/dnsmasq.conf for home internet connection.\n"
             echo "work     -- Change /etc/dnsmasq.conf for work private network connection.\n"
-            echo "restart  -- Restart homebrew dnsmasq in OSX.\n"
+            echo "restart  -- Restart DNSMasQ service in OSX.\n"
             ;;
    esac
 }
