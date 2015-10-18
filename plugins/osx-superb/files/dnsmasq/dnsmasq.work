@@ -1,5 +1,5 @@
 address=/.dev/10.10.10.93
-address=/.app/192.168.1.59
+address=/.app/10.10.10.69
 
 address=/101com.com/127.0.0.1
 address=/101order.com/127.0.0.1
