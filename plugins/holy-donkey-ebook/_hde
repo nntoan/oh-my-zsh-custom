@@ -1,0 +1,51 @@
+#compdef build-ebook
+#autoload
+
+local -a _1st_arguments
+_1st_arguments=(
+  'kindle:build kindle book'
+  'epub:build epub book'
+  'status:total time you have to pay to get this fuck'
+  'pdf:build pdf book'
+  'cleanup:check and remove temporary directories'
+)
+
+_arguments \
+  '(-v)-v[Verbose mode]' \
+  '-c1[standard compression]' \
+  '-c2[huffdic compression]' \
+  '*:: :->subcmds' && return 0
+
+if (( CURRENT == 1 )); then
+  _describe -t commands "build-ebook subcommand" _1st_arguments
+  return
+fi
+
+case "$words[1]" in
+  kindle)
+    _arguments \
+      '(-c0)-c0[default compression]' \
+      '(-c1)-c1[standard compression]' \
+      '(-c2)-c2[huffdic compression]' \
+      '(-log)-log[push all logs into a file in the project folder]' ;;
+  epub)
+    _arguments \
+      '(-m0)--unbrewed[files in brew --prefix not controlled by brew]' \
+      '(-m1)--pinned[list all versions of pinned formulae]' \
+      '(-m2)--versions[list all installed versions of a formula]' ;;
+  pdf)
+    _arguments \
+      '(--unbrewed)--unbrewed[files in brew --prefix not controlled by brew]' \
+      '(--pinned)--pinned[list all versions of pinned formulae]' \
+      '(--versions)--versions[list all installed versions of a formula]' ;;
+  search|-S)
+    _arguments \
+      '(--macports)--macports[search the macports repository]' \
+      '(--fink)--fink[search the fink repository]' ;;
+  untap)
+    _brew_installed_taps
+    _wanted installed_taps expl 'installed taps' compadd -a installed_taps ;;
+  upgrade)
+    _brew_outdated_formulae
+    _wanted outdated_formulae expl 'outdated formulae' compadd -a outdated_formulae ;;
+esac

@@ -113,3 +113,18 @@ function vuelo_dev_down() {
        echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/vuelo.dev"
    fi
 }
+#
+function vuelo_dev_suspend() {
+   wd sites/vuelo 2> /dev/null
+
+   if [[ $? -eq 0 ]]; then
+        vagrant status | grep 'running' &> /dev/null
+        if [[ $? -eq 0 ]]; then
+            echo "${fg[blue]}We are going to suspending the ${fg[green]}vuelo-dev-machine${fg[blue]}..."
+            `vagrant suspend` &> /dev/null
+            echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is already saved now. You are free to go!"
+        fi
+   else
+       echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/vuelo.dev"
+   fi
+}
