@@ -2,12 +2,6 @@
 alias superb='vim ~/.oh-my-zsh-custom/plugins/superb-aliases/superb-aliases.plugin.zsh'
 alias superb_osx='vim ~/.oh-my-zsh-custom/plugins/osx-superb/osx-superb.plugin.zsh'
 
-# Docker
-alias kaliboot='docker run -t -i kalilinux/kali-linux-docker /bin/bash'
-
-# Miscellanous
-alias zarp='cd ~/Documents/Projects/Git/GitHub/zarp && sudo python zarp.py'
-
 # Functions
 function _restartdnsmasq()
 {
@@ -33,11 +27,13 @@ function mydns()
         home)
             echo $fg[green] "Switching dnsmasq configuration for $1 connection..."
             _doswapdnshome && _restartdnsmasq
+	    touch $HOME/.mydns_home
             echo $fg[green] "Connected to Internet using dnsmasq.$1 & hosts.$1"
             ;;
         work)
             echo $fg[green] "Switching dnsmasq configuration for $1 connection..."
             _doswapdnswork && _restartdnsmasq
+	    touch $HOME/.mydns_work
             echo $fg[green] "Connected to Internet using dnsmasq.$1 & hosts.$1"
             ;;
         restart)
@@ -82,49 +78,68 @@ function cwas_dev_down() {
        echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/c-forces.dev"
    fi
 }
-#
-function vuelo_dev_up() {
+#####################
+# VUELO BOX MANAGER #
+#####################
+function vuelo() {
    wd sites/vuelo 2> /dev/null
 
    if [[ $? -eq 0 ]]; then
-        vagrant status | grep 'running' &> /dev/null
-        if [[ $? -eq 0 ]]; then
-            echo "${fg[blue]}You're logging in now...${reset_color}" && vagrant ssh
-        else
-            echo "${fg[blue]}Start booting ${fg[green]}vuelo-dev-machine${fg[blue]}, please be patient..."
-            vagrant up &> /dev/null && echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is ready to use. You're logging in now...${reset_color}" && vagrant ssh
-        fi
+      case "$1" in
+           up)
+              _vuelo_process_up $2
+           ;;
+           ssh)
+              _vuelo_process_ssh
+           ;;
+           down)
+              _vuelo_process_down
+           ;;
+           save)
+              _vuelo_process_save
+           ;;
+      esac
    else
-       echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/vuelo.dev"
+      echo $fg[red] "Site folder is not found. Please re-check, it must be located at ${HOME}/Sites/vuelo.dev"
    fi
 }
-#
-function vuelo_dev_down() {
-   wd sites/vuelo 2> /dev/null
+function _vuelo_process_up() {
+   _vuelo_vagrantfile_mydns_$1 ls -A $HOME | grep '.mydns_${1}' &> /dev/null
+   vagrant status | grep 'running' &> /dev/null
 
    if [[ $? -eq 0 ]]; then
-        vagrant status | grep 'running' &> /dev/null
-        if [[ $? -eq 0 ]]; then
-            echo "${fg[blue]}We are going to shutting down the ${fg[green]}vuelo-dev-machine${fg[blue]}..."
-            vagrant halt &> /dev/null
-            echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is already poweroff now. You are free to go!"
-        fi
+       echo "${fg[blue]}You're logging in now...${reset_color}" && vagrant ssh
    else
-       echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/vuelo.dev"
+       echo "${fg[blue]}Start booting ${fg[green]}vuelo-dev-machine${fg[blue]}, please be patient..."
+       vagrant up &> /dev/null && echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is ready to use. You're logging in now...${reset_color}" && vagrant ssh
    fi
 }
-#
-function vuelo_dev_suspend() {
-   wd sites/vuelo 2> /dev/null
-
+function _vuelo_process_ssh() {
+   echo "${fg[blue]}You're logging in now...${reset_color}" && vagrant ssh
+}
+function _vuelo_process_down() {
+   vagrant status | grep 'running' &> /dev/null
    if [[ $? -eq 0 ]]; then
-        vagrant status | grep 'running' &> /dev/null
-        if [[ $? -eq 0 ]]; then
-            echo "${fg[blue]}We are going to suspending the ${fg[green]}vuelo-dev-machine${fg[blue]}..."
-            `vagrant suspend` &> /dev/null
-            echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is already saved now. You are free to go!"
-        fi
-   else
-       echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/vuelo.dev"
+        echo "${fg[blue]}We are going to shutting down the ${fg[green]}vuelo-dev-machine${fg[blue]}..."
+        vagrant halt &> /dev/null
+        echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is already poweroff now. You are free to go!"
+   fi
+}
+function _vuelo_process_save() {
+   vagrant status | grep 'running' &> /dev/null
+   if [[ $? -eq 0 ]]; then
+        echo "${fg[blue]}We are going to suspending the ${fg[green]}vuelo-dev-machine${fg[blue]}..."
+        `vagrant suspend` &> /dev/null
+        echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is already saved now. You are free to go!"
+   fi
+}
+function _vuelo_vagrantfile_mydns_home() {
+   if [[ $? -eq 0 ]]; then
+        rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.home Vagrantfile
+   fi
+}
+function _vuelo_vagrantfile_mydns_work() {
+   if [[ $? -eq 0 ]]; then
+        rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work Vagrantfile
    fi
 }
