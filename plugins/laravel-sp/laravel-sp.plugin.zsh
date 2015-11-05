@@ -1,9 +1,9 @@
 # Laravel4 basic command completion
-_laravel4_get_command_list () {
+_laravel4_get_command_list() {
         php5.6-sp artisan --no-ansi | sed "1,/Available commands/d" | awk '/^ +[a-z]+/ { print $1 }'
 }
 
-_laravel4 () {
+_laravel4() {
   if [ -f artisan ]; then
     compadd `_laravel4_get_command_list`
   fi
@@ -13,7 +13,7 @@ compdef _laravel4 artisan
 compdef _laravel4 la4
 
 #Alias
-alias artisan='php5.6-sp artisan'
+#alias artisan='php5.6-sp artisan'
 alias la4='php5.6-sp artisan'
 
 alias la4dump='php5.6-sp artisan dump-autoload'
