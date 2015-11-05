@@ -21,7 +21,7 @@ alias zshrc='nano ~/.zshrc' 	#Quick access to the ~/.zshrc file
 alias nanorc='nano ~/.nanorc' 	#Quick access to ~/.nanorc file
 alias vimrc='nano ~/.vimrc'	#Quick access to ~/.vimrc file
 alias superb='nano $SUPERB_ALIAS/superb-aliases.plugin.zsh' #Quick access to ~/.superb-aliases.plugin.zsh
-alias nanoins='cat ~/.nano/.nanorc >> ~/.nanorc' #Copy contents from repository and extract to a new file
+alias nanoins='cat ~/.nano/nanorc >> ~/.nanorc' #Copy contents from repository and extract to a new file
 alias nanoget='git clone https://github.com/scopatz/nanorc.git ~/.nano' #Download git repository
 
 alias grep='grep --color'
