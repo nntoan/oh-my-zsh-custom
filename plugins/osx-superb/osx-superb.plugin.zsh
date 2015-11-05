@@ -199,7 +199,7 @@ function _vuelo_vagrantfile_mydns_home()
 }
 function _vuelo_vagrantfile_mydns_work()
 {
-   CURRENT_SSID=`airport -I | awk -F': ' '/ SSID/ {print $2}'`
+   CURRENT_SSID=airport -I | awk -F': ' '/ SSID/ {print $2}'
    HTE_31="HTE T3.1"
    if [[ $? -eq 0 ]]; then
 	if [[ $CURRENT_SSID == $HTE_31 ]]; then
