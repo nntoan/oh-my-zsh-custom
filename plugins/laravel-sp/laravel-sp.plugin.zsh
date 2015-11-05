@@ -1,4 +1,4 @@
- Laravel4 basic command completion
+# Laravel4 basic command completion
 _laravel4_get_command_list () {
         php5.6-sp artisan --no-ansi | sed "1,/Available commands/d" | awk '/^ +[a-z]+/ { print $1 }'
 }
