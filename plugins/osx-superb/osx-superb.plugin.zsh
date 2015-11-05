@@ -5,6 +5,9 @@ export OSX_SUPERB=$ZSH_CUSTOM/plugins/osx-superb
 alias superb_osx='nano $OSX_SUPERB/osx-superb.plugin.zsh'
 alias gitlab_ci='nano ~/.gitlab-runner/config.toml'
 
+# Miscellanous
+alias getssid="airport -I | awk -F': ' '/ SSID/ {print $2}'"
+
 # Functions
 function _restartdnsmasq()
 {
@@ -196,7 +199,13 @@ function _vuelo_vagrantfile_mydns_home()
 }
 function _vuelo_vagrantfile_mydns_work()
 {
+   CURRENT_SSID=`airport -I | awk -F': ' '/ SSID/ {print $2}'`
+   HTE_31="HTE T3.1"
    if [[ $? -eq 0 ]]; then
-        rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work Vagrantfile
+	if [[ $CURRENT_SSID == $HTE_31 ]]; then
+             rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work Vagrantfile
+     	else
+	     rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work2 Vagrantfile
+     	fi
    fi
 }
