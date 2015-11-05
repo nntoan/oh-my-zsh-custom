@@ -13,6 +13,7 @@ compdef _laravel4 artisan
 compdef _laravel4 la4
 
 #Alias
+alias artisan='php5.6-sp artisan'
 alias la4='php5.6-sp artisan'
 
 alias la4dump='php5.6-sp artisan dump-autoload'
