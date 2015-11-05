@@ -1,6 +1,9 @@
+#!/usr/bin/zsh
+export OSX_SUPERB=$ZSH_CUSTOM/plugins/osx-superb
+
 # Quick access
-alias superb='vim ~/.oh-my-zsh-custom/plugins/superb-aliases/superb-aliases.plugin.zsh'
-alias superb_osx='vim ~/.oh-my-zsh-custom/plugins/osx-superb/osx-superb.plugin.zsh'
+alias superb_osx='nano $OSX_SUPERB/osx-superb.plugin.zsh'
+alias gitlab_ci='nano ~/.gitlab-runner/config.toml'
 
 # Functions
 function _restartdnsmasq()
@@ -27,13 +30,13 @@ function mydns()
         home)
             echo $fg[green] "Switching dnsmasq configuration for $1 connection..."
             _doswapdnshome && _restartdnsmasq
-	    touch $HOME/.mydns_home
+	    touch $HOME/.mydns_home; rm -f $HOME/.mydns.work
             echo $fg[green] "Connected to Internet using dnsmasq.$1 & hosts.$1"
             ;;
         work)
             echo $fg[green] "Switching dnsmasq configuration for $1 connection..."
             _doswapdnswork && _restartdnsmasq
-	    touch $HOME/.mydns_work
+	    touch $HOME/.mydns_work; rm -f $HOME/.mydns_home
             echo $fg[green] "Connected to Internet using dnsmasq.$1 & hosts.$1"
             ;;
         restart)
@@ -81,7 +84,9 @@ function cwas_dev_down() {
 #####################
 # VUELO BOX MANAGER #
 #####################
-function vuelo() {
+function vuelo()
+{
+   WORKING_DIR=$PWD
    wd sites/vuelo 2> /dev/null
 
    if [[ $? -eq 0 ]]; then
@@ -93,31 +98,70 @@ function vuelo() {
               _vuelo_process_ssh
            ;;
            down)
-              _vuelo_process_down
+              _vuelo_process_down && `cd $WORKING_DIR`
            ;;
            save)
-              _vuelo_process_save
+              _vuelo_process_save && `cd $WORKING_DIR`
            ;;
+	   restart)
+	      _vuelo_process_restart
+	   ;;
       esac
    else
       echo $fg[red] "Site folder is not found. Please re-check, it must be located at ${HOME}/Sites/vuelo.dev"
    fi
 }
-function _vuelo_process_up() {
-   _vuelo_vagrantfile_mydns_$1 ls -A $HOME | grep '.mydns_${1}' &> /dev/null
-   vagrant status | grep 'running' &> /dev/null
+function _vuelo_process_up()
+{
+   if [[ ! -z $1 ]]; then
+        _vuelo_vagrantfile_mydns_$1 ls -A $HOME | grep '.mydns_${1}' &> /dev/null
+        vagrant status | grep 'running' &> /dev/null
 
-   if [[ $? -eq 0 ]]; then
-       echo "${fg[blue]}You're logging in now...${reset_color}" && vagrant ssh
+        if [[ $? -eq 0 ]]; then
+             echo "${fg[blue]}You're logging in now...${reset_color}" && vagrant ssh
+        else
+             echo "${fg[blue]}Start booting ${fg[green]}vuelo-dev-machine${fg[blue]}, please be patient..."
+             vagrant up &> /dev/null && echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is ready to use. You're logging in now...${reset_color}" && vagrant ssh
+        fi
    else
-       echo "${fg[blue]}Start booting ${fg[green]}vuelo-dev-machine${fg[blue]}, please be patient..."
-       vagrant up &> /dev/null && echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is ready to use. You're logging in now...${reset_color}" && vagrant ssh
+	echo "${fg[blue]}Connection parameter is missing. Auto-detect the connection..."
+	_vuelo_process_up_autodetect
    fi
 }
-function _vuelo_process_ssh() {
+function _vuelo_process_up_autodetect()
+{
+   wd sites/vuelo 2> /dev/null
+
+   if [[ -f $HOME/.mydns_home ]]; then
+        _vuelo_vagrantfile_mydns_home ls -A $HOME | grep '.mydns_home' &> /dev/null
+        vagrant status | grep 'running' &> /dev/null
+
+        if [[ $? -eq 0 ]]; then
+             echo "${fg[blue]}You're logging in now...${reset_color}" && vagrant ssh
+        else
+             echo "${fg[blue]}Start booting ${fg[green]}vuelo-dev-machine${fg[blue]}, please be patient..."
+             vagrant up &> /dev/null && echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is ready to use. You're logging in now...${reset_color}" && vagrant ssh
+        fi
+    elif [[ -f $HOME/.mydns_work ]]; then
+        _vuelo_vagrantfile_mydns_work ls -A $HOME | grep '.mydns_work' &> /dev/null
+        vagrant status | grep 'running' &> /dev/null
+
+        if [[ $? -eq 0 ]]; then
+             echo "${fg[blue]}You're logging in now...${reset_color}" && vagrant ssh
+        else
+             echo "${fg[blue]}Start booting ${fg[green]}vuelo-dev-machine${fg[blue]}, please be patient..."
+             vagrant up &> /dev/null && echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is ready to use. You're logging in now...${reset_color}" && vagrant ssh
+        fi
+    else
+        echo $fg[red] "Unable to reach your connection. Execute mydns home|work and try again."
+    fi
+}
+function _vuelo_process_ssh()
+{
    echo "${fg[blue]}You're logging in now...${reset_color}" && vagrant ssh
 }
-function _vuelo_process_down() {
+function _vuelo_process_down()
+{
    vagrant status | grep 'running' &> /dev/null
    if [[ $? -eq 0 ]]; then
         echo "${fg[blue]}We are going to shutting down the ${fg[green]}vuelo-dev-machine${fg[blue]}..."
@@ -125,7 +169,8 @@ function _vuelo_process_down() {
         echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is already poweroff now. You are free to go!"
    fi
 }
-function _vuelo_process_save() {
+function _vuelo_process_save()
+{
    vagrant status | grep 'running' &> /dev/null
    if [[ $? -eq 0 ]]; then
         echo "${fg[blue]}We are going to suspending the ${fg[green]}vuelo-dev-machine${fg[blue]}..."
@@ -133,12 +178,24 @@ function _vuelo_process_save() {
         echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is already saved now. You are free to go!"
    fi
 }
-function _vuelo_vagrantfile_mydns_home() {
+function _vuelo_process_restart()
+{
+   vagrant status | grep 'running' &> /dev/null
+   if [[ $? -eq 0 ]]; then
+        echo "${fg[blue]}We are going to restart and reload the ${fg[green]}vuelo-dev-machine${fg[blue]}..."
+        `vagrant reload` &> /dev/null
+        echo "${fg[green]}vuelo-dev-machine ${fg[blue]}is already to use now. You are free to go!" &&
+	_vuelo_process_ssh
+   fi
+}
+function _vuelo_vagrantfile_mydns_home()
+{
    if [[ $? -eq 0 ]]; then
         rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.home Vagrantfile
    fi
 }
-function _vuelo_vagrantfile_mydns_work() {
+function _vuelo_vagrantfile_mydns_work()
+{
    if [[ $? -eq 0 ]]; then
         rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work Vagrantfile
    fi

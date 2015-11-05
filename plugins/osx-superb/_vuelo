@@ -1,0 +1,37 @@
+#compdef vuelo
+
+# Vuelo autocompletion
+# Author: Toan Nguyen <nntoan@protonmail.com>
+#
+# This plugin does the following:
+#  - Adds aliases and autocompletion for vuelo
+
+local curcontext="$curcontext" state line ret=1
+_arguments -C \
+    '1: :->cmds' \
+    '*:: :->args' && ret=0
+
+case $state in
+    cmds)
+
+    _values "Vuelo command" \
+        'up[Start vuelo-dev-machine or login if already started]' \
+        'down[Poweroff vuelo-dev-machine]' \
+        'save[Suspend vuelo-dev-machine and save it as a Snapshots]' \
+        'ssh[Login vuelo-dev-machine and start using SSH]' \
+        'restart[Reload Vagrantfile and restart vuelo-dev-machine]'
+        ret=0
+        ;;
+    args)
+        case $line[1] in
+            up)
+              _values \
+                'home[Use home connection Vagrantfile]' \
+                'work[Use work connection Vagrantfile]'
+              ret=0
+            ;;
+        esac
+        ;;
+esac
+
+return ret
