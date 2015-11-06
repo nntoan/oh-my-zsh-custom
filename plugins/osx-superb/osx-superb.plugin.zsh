@@ -53,37 +53,6 @@ function mydns()
             ;;
    esac
 }
-#
-function cwas_dev_up() {
-   wd sites/c-forces 2> /dev/null
-
-   if [[ $? -eq 0 ]]; then
-        vagrant status | grep 'running' &> /dev/null
-        if [[ $? -eq 0 ]]; then
-	    echo "${fg[blue]}You're logging in now...${reset_color}" && vagrant ssh
-        else
-	    echo "${fg[blue]}Start booting ${fg[green]}cwas-dev-machine${fg[blue]}, please be patient..."
-            vagrant up &> /dev/null && echo "${fg[green]}cwas-dev-machine ${fg[blue]}is ready to use. You're logging in now...${reset_color}" && vagrant ssh
-        fi
-   else
-       echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/c-forces.dev"
-   fi
-}
-#
-function cwas_dev_down() {
-   wd sites/c-forces 2> /dev/null
-
-   if [[ $? -eq 0 ]]; then
-        vagrant status | grep 'running' &> /dev/null
-        if [[ $? -eq 0 ]]; then
-	    echo "${fg[blue]}We are going to shutting down the ${fg[green]}cwas-dev-machine${fg[blue]}..."
-            vagrant halt &> /dev/null
-	    echo "${fg[green]}cwas-dev-machine ${fg[blue]}is already poweroff now. You are free to go!"
-        fi
-   else
-       echo "Vagrant folder is not found. Please re-check, it have to be located at /Users/<username>/Sites/c-forces.dev"
-   fi
-}
 #####################
 # VUELO BOX MANAGER #
 #####################
@@ -199,11 +168,13 @@ function _vuelo_vagrantfile_mydns_home()
 }
 function _vuelo_vagrantfile_mydns_work()
 {
-   CURRENT_SSID=airport -I | awk -F': ' '/ SSID/ {print $2}'
+   CURRENT_SSID=`airport -I | awk -F': ' '/ SSID/ {print $2}'`
    HTE_31="HTE T3.1"
    if [[ $? -eq 0 ]]; then
 	if [[ $CURRENT_SSID == $HTE_31 ]]; then
              rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work Vagrantfile
+	elif [[ $CURRENT_SSID == "Linksys06151" ]]; then
+	     rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work3 Vagrantfile
      	else
 	     rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work2 Vagrantfile
      	fi
