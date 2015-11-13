@@ -1,8 +1,7 @@
 address=/.dev/10.10.0.93
 address=/.app/10.10.0.69
-address=/.hte/10.10.0.99
-address=/.lc/10.10.0.100
-address=/luyencong.net/10.10.0.100
+address=/.redmine/10.10.10.110
+address=/.svn/10.10.10.101
 
 address=/101com.com/127.0.0.1
 address=/101order.com/127.0.0.1

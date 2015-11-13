@@ -25,10 +25,9 @@ case $state in
     args)
         case $line[1] in
             up)
-              _values \
+            _values "vuelo up command" \
                 'home[Use home connection Vagrantfile]' \
                 'work[Use work connection Vagrantfile]'
-              ret=0
             ;;
         esac
         ;;

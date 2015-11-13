@@ -1,0 +1,29 @@
+#compdef mydns
+
+# Mydns autocompletion
+# Author: Toan Nguyen <nntoan@protonmail.com>
+#
+# This plugin does the following:
+#  - Adds aliases and autocompletion for mydns
+
+local curcontext="$curcontext" state line ret=1
+_arguments -C \
+    '1: :->cmds' \
+    '*:: :->args' && ret=0
+
+case $state in
+    cmds)
+
+    _values "mydns commands" \
+        'home[Switch to HOME internet connections]' \
+        'work[Switch to WORK internet connections]' \
+        'coffee[Switch to COFFEE internet connections]' \
+        'cleanup[Remove junks and temporary files]' \
+        'restart[Restart DNSMasQ service]'
+        ret=0
+        ;;
+    args)
+        ;;
+esac
+
+return ret

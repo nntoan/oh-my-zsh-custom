@@ -1,7 +1,7 @@
 # What is this?
-I need, we need keep track custom directory WHEN we have to work in multiple different environments. And we are exhausted by copy & paste your custom directories EVERYTIME you setup it.
+I need to keep track oh-my-zsh custom directory (`$ZSH_CUSTOM`) when I have to work in multiple different environments. I am also exhausted by copying & pasting oh-my-zsh custom directory EVERY SINGLE TIME I install Oh My Zsh!.
 
-Then this is what you need.
+Thus, that is why this repository present to the world.
 
 - [Getting Started](https://)
 - [Usage](https://)
