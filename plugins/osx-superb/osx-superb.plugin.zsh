@@ -257,7 +257,7 @@ function _vuelo_vagrantfile_mydns_coffee()
    if [[ $? -eq 0 ]]; then
         if [[ $CURRENT_SSID == "Anhcafe" ]]; then
              rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.coffee.anhcafe Vagrantfile &>/dev/null
-             echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}COFFEE[Anhcafe] ${fg[blue]}connection. (Public IP: ${fg[red]}192.168.0.253)"
+             echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}COFFEE[Anhcafe] ${fg[blue]}connection. (Public IP: ${fg[red]}192.168.100.253)"
         elif [[ $CURRENT_SSID == "Highlands Coffee" ]]; then
              rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.coffee.highlands Vagrantfile &>/dev/null
              echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}COFFEE[Highlands] ${fg[blue]}connection. (Public IP: ${fg[red]}10.10.10.253)"
