@@ -1488,9 +1488,9 @@
 127.0.0.1 goingplatinum.com
 127.0.0.1 gold.weborama.fr
 127.0.0.1 goldstats.com
-127.0.0.1 google-analytics.com
+#127.0.0.1 google-analytics.com
 127.0.0.1 googleadservices.com
-127.0.0.1 googlesyndication.com
+#127.0.0.1 googlesyndication.com
 127.0.0.1 gostats.com
 127.0.0.1 gp.dejanews.com
 127.0.0.1 gpr.hu
