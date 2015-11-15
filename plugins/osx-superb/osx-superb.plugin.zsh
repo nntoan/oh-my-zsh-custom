@@ -1,5 +1,5 @@
 #!/usr/bin/zsh
-export OSX_SUPERB=$ZSH_CUSTOM/plugins/osx-superb
+local OSX_SUPERB=$ZSH_CUSTOM/plugins/osx-superb
 
 # Quick access
 alias superb_osx='nano $OSX_SUPERB/osx-superb.plugin.zsh'

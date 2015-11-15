@@ -1,5 +1,6 @@
 #!/usr/bin/zsh
-export SUPERB_ALIAS=$ZSH_CUSTOM/plugins/superb-aliases
+local SUPERB_ALIAS=$ZSH_CUSTOM/plugins/superb-aliases
+local THIRD_PARTY=$ZSH_CUSTOM/tools/3rd-party
 
 # Advanced Aliases.
 # Use with caution
@@ -17,12 +18,11 @@ alias lart='ls -1Fcart'
 alias lrt='ls -1Fcrt'
 
 
-alias zshrc='nano ~/.zshrc' 	#Quick access to the ~/.zshrc file
-alias nanorc='nano ~/.nanorc' 	#Quick access to ~/.nanorc file
-alias vimrc='nano ~/.vimrc'	#Quick access to ~/.vimrc file
+alias zshrc='nano $HOME/.zshrc' #Quick access to the ~/.zshrc file
+alias nanorc='nano $HOME/.nanorc' #Quick access to ~/.nanorc file
+alias vimrc='nano $HOME/.vimrc'	#Quick access to ~/.vimrc file
 alias superb='nano $SUPERB_ALIAS/superb-aliases.plugin.zsh' #Quick access to ~/.superb-aliases.plugin.zsh
-alias nanoins='cat ~/.nano/nanorc >> ~/.nanorc' #Copy contents from repository and extract to a new file
-alias nanoget='git clone https://github.com/scopatz/nanorc.git ~/.nano' #Download git repository
+alias nanoins='cp -r $THIRD_PARTY/.nano $HOME/.nano; cat $THIRD_PARTY/nanorc >> $HOME/.nanorc' #Quick install nano
 
 alias grep='grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
@@ -79,7 +79,7 @@ alias directorydiskusage='du -s -k -c * | sort -rn'
 alias diskwho='sudo iotop'
 alias dmidecode='sudo dmidecode --type 17 | more'
 alias ducks='ls -A | grep -v -e '\''^\.\.$'\'' |xargs -i du -ks {} |sort -rn |head -16 | awk '\''{print $2}'\'' | xargs -i du -hs {}'
-alias du='du -h --max-depth=1'
+#alias du='du -h --max-depth=1'
 alias dush='du -sm *|sort -n|tail'
 alias hiddenpnps='unhide (proc|sys|brute)'
 alias hogc='ps -e -o %cpu,pid,ppid,user,cmd | sort -nr | head'
@@ -106,7 +106,7 @@ alias daysleft='echo "There are $(($(date +%j -d"Dec 31, $(date +%Y)")-$(date +%
 alias epochtime='date +%s'
 alias mytime='date +%H:%M:%S'
 alias ntpdate='sudo ntpdate ntp.ubuntu.com pool.ntp.org'
-alias oclock='read -a A<<<".*.**..*....*** 8 9 5 10 6 0 2 11 7 4";for C in `date +"%H%M"|fold -w1`;do echo "${A:${A[C+1]}:4}";done'
+alias oclock='read -A<<<".*.**..*....*** 8 9 5 10 6 0 2 11 7 4";for C in `date +"%H%M"|fold -w1`;do echo "${A:${A[C+1]}:4}";done'
 alias onthisday='grep -h -d skip `date +%m/%d` /usr/share/calendar/*'
 alias secconvert='date -d@1234567890'
 alias stamp='date "+%Y%m%d%a%H%M"'
