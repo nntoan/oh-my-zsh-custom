@@ -277,16 +277,13 @@ function _vuelo_vagrantfile_mydns_work()
    if [[ $? -eq 0 ]]; then
 	if [[ $CURRENT_SSID == "bi003" ]]; then
              rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work.bi Vagrantfile &>/dev/null
-             echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}WORK[BI_003] ${fg[blue]}connection. 
-(Public IP: ${fg[red]}192.168.0.253)"
+             echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}WORK[BI_003] ${fg[blue]}connection. (Public IP: ${fg[red]}192.168.0.253)"
 	elif [[ $CURRENT_SSID == "bi001" ]]; then
 	     rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work.bi2 Vagrantfile &>/dev/null
-             echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}WORK[BI_001] ${fg[blue]}connection. 
-(Public IP: ${fg[red]}192.168.1.253)"
+             echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}WORK[BI_001] ${fg[blue]}connection. (Public IP: ${fg[red]}192.168.1.253)"
      	else
 	     rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work.bi3 Vagrantfile &>/dev/null
-             echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}WORK[BI_XXX] ${fg[blue]}connection. 
-(Public 
+             echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}WORK[BI_XXX] ${fg[blue]}connection. (Public 
 IP: ${fg[red]}10.10.10.253)"
      	fi
    fi
