@@ -271,12 +271,14 @@ function _vuelo_vagrantfile_mydns_work()
 {
    CURRENT_SSID=`airport -I | awk -F': ' '/ SSID/ {print $2}'`
    HTE_31="HTE T3.1"
+   BI_003="bi003"
 
    ls -A $HOME | grep '.mydns_work' &>/dev/null
    if [[ $? -eq 0 ]]; then
-	if [[ $CURRENT_SSID == $HTE_31 ]]; then
-             rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work.hte Vagrantfile &>/dev/null
-             echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}WORK[HTE3.1] ${fg[blue]}connection. (Public IP: ${fg[red]}192.168.100.253)"
+	if [[ $CURRENT_SSID == $BI_003 ]]; then
+             rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work.bi Vagrantfile &>/dev/null
+             echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}WORK[bi003] ${fg[blue]}connection. 
+(Public IP: ${fg[red]}192.168.0.253)"
 	elif [[ $CURRENT_SSID == "Linksys06151" ]]; then
 	     rsync $OSX_SUPERB/files/vagrantfile/vuelo/Vagrantfile.work.hte.3 Vagrantfile &>/dev/null
              echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}WORK[HTE3.1] ${fg[blue]}connection. (Public IP: ${fg[red]}192.168.1.253)"
