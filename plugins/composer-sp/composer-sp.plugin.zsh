@@ -35,14 +35,3 @@ compdef _composer composer5.4-sp
 compdef _composer composer5.5-sp
 compdef _composer composer5.6-sp
 compdef _composer composer7.0-sp
-
-# Aliases (Composer PHP 5.6 only)
-alias c='composer5.6-sp'
-alias csu='composer5.6-sp self-update'
-alias cu='composer5.6-sp update'
-alias cr='composer5.6-sp require'
-alias ci='composer5.6-sp install'
-alias ccp='composer5.6-sp create-project'
-alias cdu='composer5.6-sp dump-autoload'
-alias cgu='composer5.6-sp global update'
-alias cgr='composer5.6-sp global require'
