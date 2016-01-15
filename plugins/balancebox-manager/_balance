@@ -1,0 +1,36 @@
+#compdef balance
+
+# Balance autocompletion
+# Author: Toan Nguyen <nntoan@protonmail.com>
+#
+# This plugin does the following:
+#  - Adds aliases and autocompletion for balance
+
+local curcontext="$curcontext" state line ret=1
+_arguments -C \
+    '1: :->cmds' \
+    '*:: :->args' && ret=0
+
+case $state in
+    cmds)
+
+    _values "Balance command" \
+        'up[Start balance-dev-machine or login if already started]' \
+        'down[Poweroff balance-dev-machine]' \
+        'save[Suspend balance-dev-machine and save it as a Snapshots]' \
+        'ssh[Login balance-dev-machine and start using SSH]' \
+        'restart[Reload Vagrantfile and restart balance-dev-machine]'
+        ret=0
+        ;;
+    args)
+        case $line[1] in
+            up)
+            _values "balance up command" \
+                'home[Use home connection Vagrantfile]' \
+                'work[Use work connection Vagrantfile]'
+            ;;
+        esac
+        ;;
+esac
+
+return ret

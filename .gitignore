@@ -3,6 +3,7 @@
 *.swp
 *.original
 *.disabled
+*.sublime-*
 
 # OS generated files #
 ######################
