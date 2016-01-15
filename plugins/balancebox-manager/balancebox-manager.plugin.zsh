@@ -86,7 +86,7 @@ function _balance_process_query()
 }
 function _balance_process_autodetect_config()
 {
-  rsync $BALANCEBOX_PLUGIN_DIR/Vagrantfile Vagrantfile &>/dev/null
+  rsync $BALANCEBOX_PLUGIN_DIR/files/vagrantfile/balance/Vagrantfile Vagrantfile &>/dev/null
   echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}BALANCE[BI_001] ${fg[blue]}connection. (Public IP: ${fg[red]}10.0.1.253)"
 }
 function _balance_process_compactdisk()
