@@ -55,7 +55,7 @@ ZSH_CUSTOM=$ZSH-custom
 plugins=(git gitfast encode extract wd zsh_reload sudo ubuntu superb-aliases composer-sp)
 
 # User configuration
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+export PATH="/opt/sp/bin:/opt/sp/php5.6/bin:/opt/sp/apache/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 export MANPATH="/usr/local/man:$MANPATH"
 
 # Proxy network
