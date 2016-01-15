@@ -1,5 +1,6 @@
 #!/usr/bin/zsh
 local BALANCEBOX_PLUGIN_DIR=$ZSH_CUSTOM/plugins/balancebox_manager
+local BALANCEBOX_STATUS=0
 
 #######################
 # BALANCE BOX MANAGER #
@@ -7,16 +8,17 @@ local BALANCEBOX_PLUGIN_DIR=$ZSH_CUSTOM/plugins/balancebox_manager
 function balance()
 {
   WORKING_DIR=$PWD
-  BALANCE_DIR=$HOME/Vagrant/balance-dev-machine
+  local BALANCE_DIR=$HOME/Vagrant/balance-dev-machine
   cd $BALANCE_DIR 2> /dev/null
 
   if [[ $? -eq 0 ]]; then
+    _balance_check_status
     case "$1" in
       up)
         _balance_up
       ;;
       ssh)
-        _balance_process_ssh
+        _balance_process_query login
       ;;
       down)
         _balance_process_query halt && `cd $WORKING_DIR`
@@ -53,13 +55,9 @@ function _balance_restart()
 }
 function _balance_process_query()
 {
-  vagrant status | grep 'running' &> /dev/null
-  if [[ $? -eq 0 ]]; then
+  if [[ $BALANCEBOX_STATUS -eq 1 ]]; then
     case "$1" in
       start)
-        echo "${fg[blue]}Start booting ${fg[green]}balance-dev-machine${fg[blue]}, please be patient..."
-        vagrant up &> /dev/null
-        echo "${fg[green]}balance-dev-machine ${fg[blue]}is ready to use."
         echo "${fg[blue]}You're logging in now...${reset_color}\n" && vagrant ssh
       ;;
       halt)
@@ -82,6 +80,24 @@ function _balance_process_query()
         echo "${fg[blue]}You're logging in now...${reset_color}\n" && vagrant ssh
       ;;
     esac
+  else
+    case "$1" in
+      start)
+        echo "${fg[blue]}Start booting ${fg[green]}balance-dev-machine${fg[blue]}, please be patient..."
+        vagrant up &> /dev/null
+        echo "${fg[green]}balance-dev-machine ${fg[blue]}is ready to use."
+        echo "${fg[blue]}You're logging in now...${reset_color}\n" && vagrant ssh
+      ;;
+    esac
+  fi
+}
+function _balance_check_status()
+{
+  vagrant status | grep 'running' &> /dev/null
+  if [[ $? -eq 0 ]]; then
+    BALANCEBOX_STATUS=1
+  else
+    BALANCEBOX_STATUS=0
   fi
 }
 function _balance_process_autodetect_config()
