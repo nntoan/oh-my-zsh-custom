@@ -35,3 +35,4 @@ compdef _composer composer5.4-sp
 compdef _composer composer5.5-sp
 compdef _composer composer5.6-sp
 compdef _composer composer7.0-sp
+compdef _composer composer
