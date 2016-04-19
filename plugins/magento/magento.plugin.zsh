@@ -23,3 +23,4 @@ _magento () {
 }
 
 compdef _magento magento
+compdef _magento bin/magento
