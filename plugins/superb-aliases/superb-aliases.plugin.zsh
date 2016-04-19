@@ -67,7 +67,7 @@ alias contents='/bin/tar -tzf'
 alias rm='rm -iv'
 alias cp='cp -iv'
 alias mv='mv -iv'
-alias rsync='rsync -avP'
+#alias rsync='rsync -avP'
 
 # app-specificed
 alias biggest='BLOCKSIZE=1048576; du -x | sort -nr | head -10'
