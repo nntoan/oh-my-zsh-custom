@@ -13,13 +13,27 @@ SCRIPT=${0##*/}
 IFS=$'\n'
 ALIVE=0
 HISTFILE="$HOME/.autossh.history"
-ISTTY=0; if [ -t 1 ]; then ISTTY=1; fi
-BOLD() { if [ $ISTTY -eq 1 ]; then tput bold; fi; }
-RESET() { if [ $ISTTY -eq 1 ]; then tput sgr0; fi; }
-RED() { if [ $ISTTY -eq 1 ]; then tput setaf 1; fi; }
-GREEN() { if [ $ISTTY -eq 1 ]; then tput setaf 2; fi; }
-BLUE() { if [ $ISTTY -eq 1 ]; then tput setaf 4; fi; }
-YELLOW() { if [ $ISTTY -eq 1 ]; then tput setaf 3; fi; }
+
+# Use colors, but only if connected to a terminal, and that terminal
+# supports them.
+if which tput >/dev/null 2>&1; then
+  ncolors=$(tput colors)
+fi
+if [ -t 1 ] && [ -n "$ncolors" ] && [ "$ncolors" -ge 8 ]; then
+  RED="$(tput setaf 1)"
+  GREEN="$(tput setaf 2)"
+  YELLOW="$(tput setaf 3)"
+  BLUE="$(tput setaf 4)"
+  BOLD="$(tput bold)"
+  NORMAL="$(tput sgr0)"
+else
+  RED=""
+  GREEN=""
+  YELLOW=""
+  BLUE=""
+  BOLD=""
+  NORMAL=""
+fi
 
 # Case-insensitive for regex matching
 shopt -s nocasematch
@@ -32,7 +46,7 @@ history -r
 # Input method
 get_input()
 {
-  read -e -p "$(BLUE)$1$(RESET)" "$2"
+  read -e -p "${BLUE}$1${NORMAL}" "$2"
   history -s "${!2}"
 }
 
@@ -40,9 +54,9 @@ get_input()
 echo_b()
 {
   if [ "$1" = "-e" ]; then
-    echo -e "$(BOLD)$2$(RESET)"
+    echo -e "${BOLD}$2${NORMAL}"
   else
-    echo "$(BOLD)$1$(RESET)"
+    echo "${BOLD}$1${NORMAL}"
   fi
 }
 
@@ -50,10 +64,10 @@ echo_b()
 echo_c()
 {
   case "$1" in
-    red | r | -red | -r | --red | --r ) echo "$(RED)$2$(RESET)" ;;
-    green | g | -green | -g | --green | --g ) echo "$(GREEN)$2$(RESET)" ;;
-    blue | b | -blue | -b | --blue | --b ) echo "$(BLUE)$2$(RESET)" ;;
-    yellow | y | -yellow | -y | --yellow | --y ) echo "$(YELLOW)$2$(RESET)" ;;
+    red | r | -red | -r | --red | --r ) echo "${RED}$2${NORMAL}" ;;
+    green | g | -green | -g | --green | --g ) echo "${GREEN}$2${NORMAL}" ;;
+    blue | b | -blue | -b | --blue | --b ) echo "${BLUE}$2${NORMAL}" ;;
+    yellow | y | -yellow | -y | --yellow | --y ) echo "${YELLOW}$2${NORMAL}" ;;
     * ) echo "$(BOLD)$2$(RESET)" ;;
   esac
 }
@@ -62,41 +76,42 @@ echo_c()
 while get_input "SSH Username > " remote_user; do
   case ${remote_user%% *} in
     * )
-        while get_input "SSH Alias/IP-address > " remote_ip; do
-          case ${remote_ip%% *} in
-            * ) break ;;
-          esac
-        done
-        break
+	if [ ! -n "$remote_user" ]; then
+          while get_input "SSH Alias/IP-address > " remote_ip; do
+            case ${remote_ip%% *} in
+              * ) [ ! -n "$remote_ip" ] && break ;;
+            esac
+          done
+        elif [[ ! -n "$remote_user" && ! -n "$remote_ip" ]]; then
+          break
+        else
+          continue
+        fi
     ;;
   esac
 done
 # get_input "SSH Username > " remote_user
 # get_input "SSH Alias/IP-address > " remote_ip
 
-#read -e -p "$(BLUE)Please specify your SSH user: $(RESET)" remote_user
-#read -e -p "$(BLUE)Please specify your bloody IP or alias: $(RESET)" remote_ip
-
-# Infinitie Loop;
+# Infinitie loop to keep connecting
 while true; do
   exist=`ps aux | grep $remote_user@$remote_ip | grep 22`
   if test -n "$exist"
   then
-    if test $ALIVE -eq 0
-    then
-      echo_c -y "I'm alive since $(date)"
+    if [ test $ALIVE -eq 0 ]; then
+      echo_c yellow "I'm alive since $(date)"
     fi
     ALIVE=1
   else
     ALIVE=0
-    echo_c -r "I'm dead... God is bringing me back..."
+    echo_c red "I'm dead... God is bringing me back..."
     clear
-    printf "$(GREEN)Connecting: "
+    printf "${GREEN}Connecting: "
     for i in {1..100}; do
       printf "." $i -1 $i
       sleep .033
     done
-    echo_c -g " 100%"
+    echo_c green " 100%"
     sleep 1
     clear
     ssh $remote_user@$remote_ip
