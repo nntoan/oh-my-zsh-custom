@@ -49,7 +49,7 @@ quick_progress()
   while true
   do
     echo -ne "#"
-    sleep 0.05
+    sleep .033
   done
 }
 long_progress()
@@ -66,7 +66,7 @@ dot_progress()
     printf "." $i -1 $i
     sleep .033
   done
-  echo_c green " 100%"
+  echo_c green " 100%{$NORMAL}"
   sleep 1
 }
 stop_progress()
@@ -114,32 +114,40 @@ echo_c()
 }
 
 # Get input data and save to history
-while get_input "SSH Username > " remote_user; do
-  case ${remote_user%% *} in
-    * )
-	if [ ! -n "$remote_user" ]; then
-          while get_input "SSH Alias/IP-address > " remote_ip; do
-            case ${remote_ip%% *} in
-              * ) [ ! -n "$remote_ip" ] && break ;;
-            esac
-          done
-        elif [[ ! -n "$remote_user" && ! -n "$remote_ip" ]]; then
-          break
-        else
-          continue
-        fi
-    ;;
-  esac
-done
-# get_input "SSH Username > " remote_user
-# get_input "SSH Alias/IP-address > " remote_ip
+if [ ! -n "$remote_user" ]; then
+  while get_input "SSH Username > " remote_user; do
+    case ${remote_user%% *} in
+      * )
+          if [ -n "$remote_user" ]; then
+            break
+          else
+            continue
+          fi
+      ;;
+    esac
+  done
+fi
+if [ ! -n "$remote_ip" ]; then
+  while get_input "SSH Alias/IP-address > " remote_ip; do
+    case ${remote_ip%% *} in
+      * )
+          if [ -n "$remote_ip" ]; then
+            break
+          else
+            continue
+          fi
+      ;;
+    esac
+  done
+fi
 
 # Infinitie loop to keep connecting
 while true; do
   exist=`ps aux | grep $remote_user@$remote_ip | grep 22`
   if test -n "$exist"
   then
-    if [ test $ALIVE -eq 0 ]; then
+    if test $ALIVE -eq 0
+    then
       echo_c yellow "I'm alive since $(date)"
     fi
     ALIVE=1
@@ -148,10 +156,12 @@ while true; do
     echo_c red "I'm dead... God is bringing me back..."
     clear
     printf "${GREEN}Connecting: "
-    quick_progress &
-    pid="$!"
-    sleep 2
-    stop_progress "$pid"
+    for i in {1..100}; do
+      printf "." $i -1 $i
+      sleep .033
+    done
+    echo_c green " 100%${NORMAL}"
+    sleep 1
     clear
     ssh $remote_user@$remote_ip
   fi
