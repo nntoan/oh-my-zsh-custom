@@ -1,0 +1,105 @@
+#!/bin/bash
+# ------------------------------------------------------------------------------
+# FILE: autossh
+# DESCRIPTION: This is an SSH-D proxy with auto-reconnect on disconnect
+# AUTHOR: Toan Nguyen (nntoan at protonmail dot com)
+# VERSION: 1.0.0
+# ------------------------------------------------------------------------------
+
+VERSION="1.0.0"
+GITHUB="https://github.com/nntoan/autossh"
+AUTHOR="Toan Nguyen"
+SCRIPT=${0##*/}
+IFS=$'\n'
+ALIVE=0
+HISTFILE="$HOME/.autossh.history"
+ISTTY=0; if [ -t 1 ]; then ISTTY=1; fi
+BOLD() { if [ $ISTTY -eq 1 ]; then tput bold; fi; }
+RESET() { if [ $ISTTY -eq 1 ]; then tput sgr0; fi; }
+RED() { if [ $ISTTY -eq 1 ]; then tput setaf 1; fi; }
+GREEN() { if [ $ISTTY -eq 1 ]; then tput setaf 2; fi; }
+BLUE() { if [ $ISTTY -eq 1 ]; then tput setaf 4; fi; }
+YELLOW() { if [ $ISTTY -eq 1 ]; then tput setaf 3; fi; }
+
+# Case-insensitive for regex matching
+shopt -s nocasematch
+
+# Prepare history mode
+set -i
+history -c
+history -r
+
+# Input method
+get_input()
+{
+  read -e -p "$(BLUE)$1$(RESET)" "$2"
+  history -s "${!2}"
+}
+
+# Echo in bold
+echo_b()
+{
+  if [ "$1" = "-e" ]; then
+    echo -e "$(BOLD)$2$(RESET)"
+  else
+    echo "$(BOLD)$1$(RESET)"
+  fi
+}
+
+# Echo in colour
+echo_c()
+{
+  case "$1" in
+    red | r | -red | -r | --red | --r ) echo "$(RED)$2$(RESET)" ;;
+    green | g | -green | -g | --green | --g ) echo "$(GREEN)$2$(RESET)" ;;
+    blue | b | -blue | -b | --blue | --b ) echo "$(BLUE)$2$(RESET)" ;;
+    yellow | y | -yellow | -y | --yellow | --y ) echo "$(YELLOW)$2$(RESET)" ;;
+    * ) echo "$(BOLD)$2$(RESET)" ;;
+  esac
+}
+
+# Get input data and save to history
+while get_input "SSH Username > " remote_user; do
+  case ${remote_user%% *} in
+    * )
+        while get_input "SSH Alias/IP-address > " remote_ip; do
+          case ${remote_ip%% *} in
+            * ) break ;;
+          esac
+        done
+        break
+    ;;
+  esac
+done
+# get_input "SSH Username > " remote_user
+# get_input "SSH Alias/IP-address > " remote_ip
+
+#read -e -p "$(BLUE)Please specify your SSH user: $(RESET)" remote_user
+#read -e -p "$(BLUE)Please specify your bloody IP or alias: $(RESET)" remote_ip
+
+# Infinitie Loop;
+while true; do
+  exist=`ps aux | grep $remote_user@$remote_ip | grep 22`
+  if test -n "$exist"
+  then
+    if test $ALIVE -eq 0
+    then
+      echo_c -y "I'm alive since $(date)"
+    fi
+    ALIVE=1
+  else
+    ALIVE=0
+    echo_c -r "I'm dead... God is bringing me back..."
+    clear
+    printf "$(GREEN)Connecting: "
+    for i in {1..100}; do
+      printf "." $i -1 $i
+      sleep .033
+    done
+    echo_c -g " 100%"
+    sleep 1
+    clear
+    ssh $remote_user@$remote_ip
+  fi
+  sleep 1
+done
