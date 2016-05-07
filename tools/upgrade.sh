@@ -1,6 +1,6 @@
 printf '\033[0;34m%s\033[0m\n' "Upgrading Oh My Zsh Custom"
-if [ ! -f "/usr/local/bin/autossh" ]; then
-  sudo cp "$ZSH_CUSTOM/tools/autossh" /usr/local/bin/autossh;
+if [ -f "/usr/local/bin/autossh" ]; then
+  sudo \cp "$ZSH_CUSTOM/tools/autossh" /usr/local/bin/autossh;
 fi
 cd "$ZSH_CUSTOM"
 if git pull --rebase --stat origin master

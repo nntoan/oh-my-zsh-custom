@@ -1,11 +1,11 @@
 #!/usr/bin/zsh
-local OSX_SUPERB=$ZSH_CUSTOM/plugins/osx-superb
 
 # Quick access
 alias superb_osx='nano $OSX_SUPERB/osx-superb.plugin.zsh'
 alias gitlab_ci='nano ~/.gitlab-runner/config.toml'
 
 # Miscellanous
+#alias composer='php -n /usr/local/bin/composer'
 
 # Functions
 
