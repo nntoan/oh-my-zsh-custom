@@ -22,7 +22,7 @@ alias zshrc='nano $HOME/.zshrc' #Quick access to the ~/.zshrc file
 alias nanorc='nano $HOME/.nanorc' #Quick access to ~/.nanorc file
 alias vimrc='nano $HOME/.vimrc'	#Quick access to ~/.vimrc file
 alias superb='nano $SUPERB_ALIAS/superb-aliases.plugin.zsh' #Quick access to ~/.superb-aliases.plugin.zsh
-alias nanoins='cp -r $THIRD_PARTY/.nano $HOME/.nano; cat $THIRD_PARTY/nanorc >> $HOME/.nanorc' #Quick install nano
+alias nanoins='cp -r $THIRD_PARTY/nano $HOME/.nano; cat $THIRD_PARTY/nanorc >> $HOME/.nanorc' #Quick install nano
 
 alias grep='grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
