@@ -4,6 +4,7 @@
 *.original
 *.disabled
 *.sublime-*
+!/tools/3rd-party/.nano
 
 # OS generated files #
 ######################
