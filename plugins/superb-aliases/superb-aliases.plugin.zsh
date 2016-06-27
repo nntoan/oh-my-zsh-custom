@@ -222,8 +222,19 @@ function netinfo()
 # Find & Chmod 755 for directories and 644 for files
 function batch_chmod()
 {
-   echo $fg[blue] "Re-establish the dictatorship for all files and directories..."
-   find * -type d -print0 | xargs -0 chmod 0755 # for directories
-   find . -type f -print0 | xargs -0 chmod 0644 # for files
-   echo "Done!"
+   #echo -n "${fg[blue]}"
+   progress 5 "Re-establish the dictatorship for all files and directories..."
+   find . -type d -print0 | xargs -0 chmod 0755 && progress 45 "[1/2]: Directoriy permissions changed successfully..."
+   find . -type f -print0 | xargs -0 chmod 0644 && progress 95 "[2/2]: File permissions changed successfully..."
+   progress 100 "All Done :)"
+}
+#
+# Fix Scaleway servers
+function scaleway_fixer()
+{
+  # /etc/default/ufw
+  perl -i -pe's/DEFAULT_INPUT_POLICY="DROP"/DEFAULT_INPUT_POLICY="ACCEPT"/g' /etc/default/ufw
+
+  # /etc/ufw/after.rules
+  tr '\n' '_' < sed '28s/$/_# fix scaleway NBD stupidity_-A ufw-reject-input -j DROP_/g' after.rules
 }
