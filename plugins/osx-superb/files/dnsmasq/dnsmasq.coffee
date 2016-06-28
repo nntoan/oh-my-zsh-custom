@@ -1,7 +1,5 @@
-address=/.dev/10.10.0.93
-address=/.app/10.10.0.69
-address=/.redmine/10.10.10.110
-address=/.svn/10.10.10.101
+address=/.dev/23.9.19.93
+address=/.app/23.9.19.93
 
 address=/101com.com/127.0.0.1
 address=/101order.com/127.0.0.1

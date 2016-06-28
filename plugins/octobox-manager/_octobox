@@ -1,0 +1,36 @@
+#compdef octopius
+
+# Octopius autocompletion
+# Author: Toan Nguyen <nntoan@protonmail.com>
+#
+# This plugin does the following:
+#  - Adds aliases and autocompletion for octopius
+
+local curcontext="$curcontext" state line ret=1
+_arguments -C \
+    '1: :->cmds' \
+    '*:: :->args' && ret=0
+
+case $state in
+    cmds)
+
+    _values "Octopius command" \
+        'up[Start octopius-dev-machine or login if already started]' \
+        'down[Poweroff octopius-dev-machine]' \
+        'save[Suspend octopius-dev-machine and save it as a Snapshots]' \
+        'ssh[Login octopius-dev-machine and start using SSH]' \
+        'restart[Reload Vagrantfile and restart octopius-dev-machine]'
+        ret=0
+        ;;
+    args)
+        case $line[1] in
+            up)
+            _values "octopius up command" \
+                'home[Use home connection Vagrantfile]' \
+                'work[Use work connection Vagrantfile]'
+            ;;
+        esac
+        ;;
+esac
+
+return ret
