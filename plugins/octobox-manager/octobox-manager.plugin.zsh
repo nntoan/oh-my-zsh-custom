@@ -71,7 +71,7 @@ function _octopius_process_up()
     _octopius_process_ssh
   else
     echo "${fg[blue]}Start booting ${OCTOBOX_MACHINE}${fg[blue]}, please be patient..."
-    vagrant reload "$OCTOBOX_ID" #&> /dev/null
+    vagrant reload "$OCTOBOX_ID" &> /dev/null
     echo "${OCTOBOX_MACHINE} ${fg[blue]}is ready to use."
     _octopius_process_ssh
   fi
