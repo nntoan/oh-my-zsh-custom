@@ -5,3 +5,9 @@ Thus, that is why this repository present to the world.
 
 - [Getting Started](https://)
 - [Usage](https://)
+
+# Installation
+
+```bash
+sh -c "$(wget https://raw.github.com/nntoan/oh-my-zsh-custom/master/install.sh -O -)"
+```
