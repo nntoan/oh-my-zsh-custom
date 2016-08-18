@@ -110,7 +110,6 @@ main() {
   echo 'p.p.s. Get stickers and t-shirts at http://shop.planetargon.com.'
   echo ''
   printf "${NORMAL}"
-  env zsh
 }
 
 main_custom() {
@@ -187,6 +186,7 @@ main_custom() {
   echo ''
   echo ''
   printf "${NORMAL}"
+  env zsh
 }
 
 main
