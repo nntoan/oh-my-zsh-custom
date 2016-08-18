@@ -113,4 +113,81 @@ main() {
   env zsh
 }
 
+main_custom() {
+  _user="$(id -u -n)"
+
+  if [ ! -n "$ZSH_CUSTOM" ]; then
+    ZSH_CUSTOM=~/.oh-my-zsh-custom
+  fi
+
+  if [ -d "$ZSH_CUSTOM" ]; then
+    printf "${YELLOW}You already have Oh My Zsh Custom installed.${NORMAL}\n"
+    printf "You'll need to remove $ZSH_CUSTOM if you want to re-install.\n"
+    exit
+  fi
+
+  # Prevent the cloned repository from having insecure permissions. Failing to do
+  # so causes compinit() calls to fail with "command not found: compdef" errors
+  # for users with insecure umasks (e.g., "002", allowing group writability). Note
+  # that this will be ignored under Cygwin by default, as Windows ACLs take
+  # precedence over umasks except for filesystems mounted with option "noacl".
+  umask g-w,o-w
+
+  printf "${BLUE}Cloning Oh My Zsh Custom...${NORMAL}\n"
+  hash git >/dev/null 2>&1 || {
+    echo "Error: git is not installed"
+    exit 1
+  }
+  # The Windows (MSYS) Git is not compatible with normal use on cygwin
+  if [ "$OSTYPE" = cygwin ]; then
+    if git --version | grep msysgit > /dev/null; then
+      echo "Error: Windows/MSYS Git is not supported on Cygwin"
+      echo "Error: Make sure the Cygwin git package is installed and is first on the path"
+      exit 1
+    fi
+  fi
+  env git clone --depth=1 https://github.com/nntoan/oh-my-zsh-custom.git $ZSH_CUSTOM || {
+    printf "Error: git clone of oh-my-zsh-custom repo failed\n"
+    exit 1
+  }
+
+
+  printf "${BLUE}Looking for an existing zsh config...${NORMAL}\n"
+  if [ -f ~/.zshrc ] || [ -h ~/.zshrc ]; then
+    printf "${YELLOW}Found ~/.zshrc.${NORMAL} ${GREEN}Backing up to ~/.zshrc.pre-oh-my-zsh${NORMAL}\n";
+    mv ~/.zshrc ~/.zshrc.pre-oh-my-zsh;
+  fi
+
+  printf "${BLUE}Using the Oh My Zsh Custom template file and adding it to ~/.zshrc${NORMAL}\n"
+  case "$_user" in
+    serverpilot)
+      cp $ZSH_CUSTOM/templates/zshrc.serverpilot ~/.zshrc
+    ;;
+    vagrant)
+      cp $ZSH_CUSTOM/templates/zshrc.vagrant ~/.zshrc
+    ;;
+    root)
+      cp $ZSH_CUSTOM/templates/zshrc.root ~/.zshrc
+    ;;
+    *)
+      cp $ZSH_CUSTOM/templates/zshrc.default ~/.zshrc
+    ;;
+  esac
+
+  printf "${GREEN}"
+  echo '         __                                     __   '
+  echo '  ____  / /_     ____ ___  __  __   ____  _____/ /_  '
+  echo ' / __ \/ __ \   / __ `__ \/ / / /  /_  / / ___/ __ \ '
+  echo '/ /_/ / / / /  / / / / / / /_/ /    / /_(__  ) / / / '
+  echo '\____/_/ /_/  /_/ /_/ /_/\__, /    /___/____/_/ /_/  '
+  echo '                        /____/                       .... CUSTOM :) is now installed!'
+  echo ''
+  echo ''
+  echo 'Please look over the ~/.zshrc file to select plugins, themes, and options.'
+  echo ''
+  echo ''
+  printf "${NORMAL}"
+}
+
 main
+main_custom
