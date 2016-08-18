@@ -1,17 +1,18 @@
 #!/usr/bin/zsh
-local BALANCEBOX_PLUGIN_DIR=$ZSH_CUSTOM/plugins/balancebox_manager
-local BALANCEBOX_STATUS=0
-
 #######################
 # BALANCE BOX MANAGER #
 #######################
 function balance()
 {
-  WORKING_DIR=$PWD
-  local BALANCE_DIR=$HOME/Vagrant/balance-dev-machine
-  cd $BALANCE_DIR 2> /dev/null
+  local BALANCEBOX_PLUGIN_DIR=$ZSH_CUSTOM/plugins/balancebox-manager
+  local BALANCEBOX_VAGRANT_DIR=$HOME/Vagrant/balance-dev-machine
+  local BALANCEBOX_MACHINE="${fg[green]}balance-dev-machine${fg[blue]}"
+  local BALANCEBOX_MACHINE_ANSI="balance-dev-machine"
+  local WORKING_DIR=$PWD
+  local BALANCEBOX_ID="34dbad7"
+  local BALANCEBOX_STATUS=0
 
-  if [[ $? -eq 0 ]]; then
+  if [[ -d "$BALANCEBOX_VAGRANT_DIR" ]]; then
     _balance_check_status
     case "$1" in
       up)
@@ -40,7 +41,7 @@ function balance()
       ;;
     esac
   else
-    echo $fg[red] "Vagrant folder is not found. Please re-check, it must be located at ${HOME}/Vagrant/balance-dev-machine"
+    echo $fg[red] "Vagrant folder is not found. Please re-check, it must be located at ${BALANCEBOX_VAGRANT_DIR}"
   fi
 }
 function _balance_up()
@@ -58,42 +59,42 @@ function _balance_process_query()
   if [[ $BALANCEBOX_STATUS -eq 1 ]]; then
     case "$1" in
       start)
-        echo "${fg[blue]}You're logging in now...${reset_color}\n" && vagrant ssh
+        echo "${fg[blue]}You're logging in now...${reset_color}\n" && vagrant ssh "$BALANCEBOX_ID"
       ;;
       halt)
-        echo "${fg[blue]}We are going to shutting down the ${fg[green]}balance-dev-machine${fg[blue]}..."
-        vagrant halt &> /dev/null
-        echo "${fg[green]}balance-dev-machine ${fg[blue]}is already poweroff now. You are free to go!"
+        echo "${fg[blue]}We are going to shutting down the ${BALANCEBOX_MACHINE}..."
+        vagrant halt "$BALANCEBOX_ID" &> /dev/null
+        echo "${BALANCEBOX_MACHINE} is already poweroff now. You are free to go!"
       ;;
       save)
-        echo "${fg[blue]}We are going to suspending the ${fg[green]}balance-dev-machine${fg[blue]}..."
-        vagrant suspend &> /dev/null
-        echo "${fg[green]}balance-dev-machine ${fg[blue]}is already saved now. You are free to go!"
+        echo "${fg[blue]}We are going to suspending the ${BALANCEBOX_MACHINE}..."
+        vagrant suspend "$BALANCEBOX_ID" &> /dev/null
+        echo "${BALANCEBOX_MACHINE} is already saved now. You are free to go!"
       ;;
       reload)
-        echo "${fg[blue]}We are going to restart and reload the ${fg[green]}balance-dev-machine${fg[blue]}..."
-        vagrant reload &> /dev/null
-        echo "${fg[green]}balance-dev-machine ${fg[blue]}is already to use now."
-        echo "${fg[blue]}You're logging in now...${reset_color}\n" && vagrant ssh
+        echo "${fg[blue]}We are going to restart and reload the ${BALANCEBOX_MACHINE}..."
+        vagrant reload "$BALANCEBOX_ID" &> /dev/null
+        echo "${BALANCEBOX_MACHINE} is already to use now."
+        echo "${fg[blue]}You're logging in now...${reset_color}\n" && vagrant ssh "$BALANCEBOX_ID"
       ;;
       login)
-        echo "${fg[blue]}You're logging in now...${reset_color}\n" && vagrant ssh
+        echo "${fg[blue]}You're logging in now...${reset_color}\n" && vagrant ssh "$BALANCEBOX_ID"
       ;;
     esac
   else
     case "$1" in
       start)
-        echo "${fg[blue]}Start booting ${fg[green]}balance-dev-machine${fg[blue]}, please be patient..."
-        vagrant up &> /dev/null
-        echo "${fg[green]}balance-dev-machine ${fg[blue]}is ready to use."
-        echo "${fg[blue]}You're logging in now...${reset_color}\n" && vagrant ssh
+        echo "${fg[blue]}Start booting ${BALANCEBOX_MACHINE}, please be patient..."
+        vagrant up "$BALANCEBOX_ID" &> /dev/null
+        echo "${BALANCEBOX_MACHINE} is ready to use."
+        echo "You're logging in now...${reset_color}\n" && vagrant ssh "$BALANCEBOX_ID"
       ;;
     esac
   fi
 }
 function _balance_check_status()
 {
-  vagrant status | grep 'running' &> /dev/null
+  vagrant status "$BALANCEBOX_ID" | grep 'running' &> /dev/null
   if [[ $? -eq 0 ]]; then
     BALANCEBOX_STATUS=1
   else
@@ -102,28 +103,29 @@ function _balance_check_status()
 }
 function _balance_process_autodetect_config()
 {
-  rsync $BALANCEBOX_PLUGIN_DIR/files/vagrantfile/balance/Vagrantfile Vagrantfile &>/dev/null
-  echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}BALANCE[BI_001] ${fg[blue]}connection. (Public IP: ${fg[red]}10.0.1.253)"
+  local ip=`ipconfig getifaddr en0`
+  rsync $BALANCEBOX_PLUGIN_DIR/files/vagrantfile/balance/Vagrantfile $BALANCEBOX_VAGRANT_DIR/Vagrantfile &>/dev/null
+  echo "${fg[blue]}Vagrantfile was reset for ${fg[yellow]}BALANCE[en0] ${fg[blue]}connection. (Public IP: ${fg[red]}${ip})"
 }
 function _balance_process_compactdisk()
 {
-  $DISK=$HOME/VirtualBox\ VMs/balance_dev_machine/cloned-disk1.vdi
-  VBoxManage modifyhd --compact ~/VirtualBox\ VMs/balance_dev_machine/cloned-disk1.vdi &>/dev/null
+  $DISK=$HOME/VirtualBox/balance_dev_machine/box-disk1.vdi
+  VBoxManage modifyhd --compact ~/VirtualBox/balance_dev_machine/box-disk1.vdi &>/dev/null
 }
 function _balance_process_status()
 {
-  vagrant status | grep 'running' &>/dev/null
+  vagrant status "$BALANCEBOX_ID" | grep 'running' &>/dev/null
   if [[ $? -eq 0 ]]; then
-    echo "${fg[green]}balance-dev-machine${fg[blue]} is running..."
+    echo "${BALANCEBOX_MACHINE}${fg[blue]} is running..."
   else
-    echo "${fg[green]}balance-dev-machine${fg[blue]} is not running..."
+    echo "${BALANCEBOX_MACHINE}${fg[blue]} is not running..."
   fi
 }
 function _balance_show_help()
 {
   case "$1" in
     --ansi)
-        echo $fg[black] ""; box "balance DEV MACHINE MANAGER"
+        echo $fg[black] ""; box "BALANCE-DEV BOX MANAGER"
 
         echo
 
@@ -141,15 +143,15 @@ function _balance_show_help()
         echo
 
         echo "${fg[yellow]}Available commands:"
-        echo $fg[green] "up${reset_color}               Start, provisioning and login to balance-dev-machine."
-        echo $fg[green] "ssh${reset_color}              Login to balance-dev-machine."
-        echo $fg[green] "down${reset_color}             Stops balance-dev-machine and go to previous working dir."
-        echo $fg[green] "save${reset_color}             Suspends balance-dev-machine and go to previous working dir."
-        echo $fg[green] "restart${reset_color}          Restart balance-dev-machine, loads new config file."
+        echo $fg[green] "up${reset_color}               Start, provisioning and login to ${BALANCEBOX_MACHINE_ANSI}."
+        echo $fg[green] "ssh${reset_color}              Login to ${BALANCEBOX_MACHINE_ANSI}."
+        echo $fg[green] "down${reset_color}             Stops ${BALANCEBOX_MACHINE_ANSI} and go to previous working dir."
+        echo $fg[green] "save${reset_color}             Suspends ${BALANCEBOX_MACHINE_ANSI} and go to previous working dir."
+        echo $fg[green] "restart${reset_color}          Restart ${BALANCEBOX_MACHINE_ANSI}, loads new config file."
         echo $fg[green] "compact${reset_color}          Compact virtual disk to save space."
     ;;
     --no-ansi)
-        echo ""; box "balance DEV MACHINE MANAGER"
+        echo ""; box "BALANCE-DEV BOX MANAGER"
 
         echo
 
@@ -167,11 +169,11 @@ function _balance_show_help()
         echo
 
         echo "Available commands:"
-        echo " up ${reset_color}              Start, provisioning and login to balance-dev-machine."
-        echo " ssh${reset_color}              Login to balance-dev-machine."
-        echo " down${reset_color}             Stops balance-dev-machine and go to previous working dir."
-        echo " save${reset_color}             Suspends balance-dev-machine and go to previous working dir."
-        echo " restart${reset_color}          Restart balance-dev-machine, loads new config file."
+        echo " up ${reset_color}              Start, provisioning and login to ${BALANCEBOX_MACHINE_ANSI}."
+        echo " ssh${reset_color}              Login to ${BALANCEBOX_MACHINE_ANSI}."
+        echo " down${reset_color}             Stops ${BALANCEBOX_MACHINE_ANSI} and go to previous working dir."
+        echo " save${reset_color}             Suspends ${BALANCEBOX_MACHINE_ANSI} and go to previous working dir."
+        echo " restart${reset_color}          Restart ${BALANCEBOX_MACHINE_ANSI}, loads new config file."
         echo " compact${reset_color}          Compact virtual disk to save space."
     ;;
   esac
