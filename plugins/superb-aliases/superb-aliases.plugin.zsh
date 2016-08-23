@@ -1,6 +1,8 @@
-#!/usr/bin/zsh
+#!/usr/bin/env zsh
 local SUPERB_ALIAS=$ZSH_CUSTOM/plugins/superb-aliases
 local THIRD_PARTY=$ZSH_CUSTOM/tools/3rd-party
+
+source $ZSH_CUSTOM/lib/spin.zsh
 
 # Advanced Aliases.
 # Use with caution
@@ -166,37 +168,37 @@ alias restoremod='chgrp users -R .;chmod u=rwX,g=rX,o=rX -R .;chown $(pwd |cut -
 
 # zsh is able to auto-do some kungfoo
 # depends on the SUFFIX :)
-if [ ${ZSH_VERSION//\./} -ge 420 ]; then
+#if [ ${ZSH_VERSION//\./} -ge 420 ]; then
   # open browser on urls
-  _browser_fts=(htm html de org net com at cx nl se dk dk php)
-  for ft in $_browser_fts ; do alias -s $ft=$BROWSER ; done
+#  _browser_fts=(htm html de org net com at cx nl se dk dk php)
+#  for ft in $_browser_fts ; do alias -s $ft=$BROWSER ; done
 
-  _editor_fts=(cpp cxx cc c hh h inl asc txt TXT tex)
-  for ft in $_editor_fts ; do alias -s $ft=$EDITOR ; done
+#  _editor_fts=(cpp cxx cc c hh h inl asc txt TXT tex)
+#  for ft in $_editor_fts ; do alias -s $ft=$EDITOR ; done
 
-  _image_fts=(jpg jpeg png gif mng tiff tif xpm)
-  for ft in $_image_fts ; do alias -s $ft=$XIVIEWER; done
+#  _image_fts=(jpg jpeg png gif mng tiff tif xpm)
+#  for ft in $_image_fts ; do alias -s $ft=$XIVIEWER; done
 
-  _media_fts=(ape avi flv mkv mov mp3 mpeg mpg ogg ogm rm wav webm)
-  for ft in $_media_fts ; do alias -s $ft=mplayer ; done
+#  _media_fts=(ape avi flv mkv mov mp3 mpeg mpg ogg ogm rm wav webm)
+#  for ft in $_media_fts ; do alias -s $ft=mplayer ; done
 
   #read documents
-  alias -s pdf=acroread
-  alias -s ps=gv
-  alias -s dvi=xdvi
-  alias -s chm=xchm
-  alias -s djvu=djview
+#  alias -s pdf=acroread
+#  alias -s ps=gv
+#  alias -s dvi=xdvi
+#  alias -s chm=xchm
+#  alias -s djvu=djview
 
   #list whats inside packed file
-  alias -s zip="unzip -l"
-  alias -s rar="unrar l"
-  alias -s tar="tar tf"
-  alias -s tar.gz="echo "
-  alias -s ace="unace l"
-fi
+#  alias -s zip="unzip -l"
+#  alias -s rar="unrar l"
+#  alias -s tar="tar tf"
+#  alias -s tar.gz="echo "
+#  alias -s ace="unace l"
+#fi
 
 # Make zsh know about hosts already accessed by SSH
-zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+#zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 # Functions
 #
@@ -222,11 +224,7 @@ function netinfo()
 # Find & Chmod 755 for directories and 644 for files
 function batch_chmod()
 {
-   #echo -n "${fg[blue]}"
-   progress 5 "Re-establish the dictatorship for all files and directories..."
-   find . -type d -print0 | xargs -0 chmod 0755 && progress 45 "[1/2]: Directoriy permissions changed successfully..."
-   find . -type f -print0 | xargs -0 chmod 0644 && progress 95 "[2/2]: File permissions changed successfully..."
-   progress 100 "All Done :)"
+  env /bin/zsh $ZSH_CUSTOM/tools/batch_chmod.zsh
 }
 #
 # Fix Scaleway servers
