@@ -1,6 +1,8 @@
-export HOLY_DONKEY_PACK=$HOME/Documents/Projects/Git/GitHub/user_holy-donkey/HolyDonkeyPack
-export HDP_EBOOK_BUILDER=$HOLY_DONKEY_PACK/ebooks-builder
-export HDP_EBOOK_COMPLETED=$HOLY_DONKEY_PACK/ebooks/__ebooks-built-completed__
+#!/usr/bin/env zsh
+
+local HOLY_DONKEY_PACK=$HOME/Documents/Projects/Git/GitHub/user_holy-donkey/HolyDonkeyPack
+local HDP_EBOOK_BUILDER=$HOLY_DONKEY_PACK/ebooks-builder
+local HDP_EBOOK_COMPLETED=$HOLY_DONKEY_PACK/ebooks/__ebooks-built-completed__
 
 function _kindle_ebook_builder()
 {

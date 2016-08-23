@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 # ------------------------------------------------------------------------------
 # FILE: autossh.plugin.zsh
 # DESCRIPTION: This is an SSH-D proxy with auto-reconnect on disconnect
