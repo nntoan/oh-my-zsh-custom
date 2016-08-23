@@ -15,7 +15,7 @@ if [ "$ITERM2_SHELL_INTEGRATION" != "true" ]; then
     source $ZSH_CUSTOM/tools/iterm2_shell_integration.zsh
 fi
 
-# Set ZSH_CACHE_DIR to the path where cache files should be created
+# Set ZSH_CUSTOM_CACHE_DIR to the path where cache files should be created
 # or else we will use the default cache/
 if [[ -z "$ZSH_CUSTOM_CACHE_DIR" ]]; then
   ZSH_CUSTOM_CACHE_DIR="$ZSH_CUSTOM/cache/"
