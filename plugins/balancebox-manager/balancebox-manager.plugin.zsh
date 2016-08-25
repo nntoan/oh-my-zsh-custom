@@ -9,7 +9,7 @@ function balance()
   local BALANCEBOX_MACHINE="${fg[green]}balance-dev-machine${fg[blue]}"
   local BALANCEBOX_MACHINE_ANSI="balance-dev-machine"
   local WORKING_DIR=$PWD
-  local BALANCEBOX_ID="34dbad7"
+  local BALANCEBOX_ID=$VAGRANTBOX_ID
   local BALANCEBOX_STATUS=0
 
   if [[ -d "$BALANCEBOX_VAGRANT_DIR" ]]; then

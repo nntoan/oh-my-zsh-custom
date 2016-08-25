@@ -52,7 +52,7 @@ ZSH_CUSTOM=$ZSH-custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git gitfast git-flow-avh mosh-superb brew osx osx-superb superb-aliases git-aliases n98-magerun-sp gem ruby python vagrant sudo zsh_reload extract wd composer-sp rsync-superb progressbar octobox-manager balancebox-manager)
+plugins=(git gitfast git-flow-avh mosh-superb brew osx osx-superb superb-aliases git-aliases n98-magerun-sp gem ruby python vagrant sudo zsh_reload extract wd composer-sp rsync-superb progressbar octobox-manager)
 
 # User configuration
 
@@ -61,6 +61,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 export MANPATH="/usr/local/man:$MANPATH"
 export NVM_DIR="/Users/nntoan/.nvm"
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+export VAGRANTBOX_ID=""
 
 source $NVM_DIR/nvm.sh
 source $ZSH/oh-my-zsh.sh

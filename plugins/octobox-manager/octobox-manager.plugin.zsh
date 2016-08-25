@@ -9,7 +9,7 @@ function octopius()
   local OCTOBOX_MACHINE="${fg[green]}octopius-dev-machine"
   local OCTOBOX_MACHINE_ANSI="octopius-dev-machine"
   local WORKING_DIR=$PWD
-  local OCTOBOX_ID="1bf422f"
+  local OCTOBOX_ID=$VAGRANTBOX_ID
 
   if [[ -d "$OCTOBOX_VAGRANT_DIR" ]]; then
     case "$1" in
