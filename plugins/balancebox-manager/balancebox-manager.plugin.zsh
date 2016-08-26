@@ -85,7 +85,7 @@ function _balance_process_query()
     case "$1" in
       start)
         echo "${fg[blue]}Start booting ${BALANCEBOX_MACHINE}, please be patient..."
-        vagrant up "$BALANCEBOX_ID" &> /dev/null
+        vagrant reload "$BALANCEBOX_ID" &> /dev/null
         echo "${BALANCEBOX_MACHINE} is ready to use."
         echo "You're logging in now...${reset_color}\n" && vagrant ssh "$BALANCEBOX_ID"
       ;;
