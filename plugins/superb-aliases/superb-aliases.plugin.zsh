@@ -2,8 +2,6 @@
 local SUPERB_ALIAS=$ZSH_CUSTOM/plugins/superb-aliases
 local THIRD_PARTY=$ZSH_CUSTOM/tools/3rd-party
 
-source $ZSH_CUSTOM/lib/spin.zsh
-
 # Advanced Aliases.
 # Use with caution
 #
@@ -25,6 +23,7 @@ alias nanorc='nano $HOME/.nanorc' #Quick access to ~/.nanorc file
 alias vimrc='nano $HOME/.vimrc'	#Quick access to ~/.vimrc file
 alias superb='nano $SUPERB_ALIAS/superb-aliases.plugin.zsh' #Quick access to ~/.superb-aliases.plugin.zsh
 alias nanoins='cp -r $THIRD_PARTY/nano $HOME/.nano; cat $THIRD_PARTY/nanorc >> $HOME/.nanorc' #Quick install nano
+alias nvimins='mkdir -p $HOME/.config; cp -r $THIRD_PARTY/nvim $HOME/.config/; vi +PlugInstall +qall' #Quick install nvim
 
 alias grep='grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
@@ -159,80 +158,51 @@ alias wwwmirror='wget -ErkK -np ${1}'
 # permissions
 alias 000='chmod 000'
 alias 640='chmod 640'
+alias 660='chmod 660'
 alias 644='chmod 644'
+alias 770='chmod 770'
 alias 755='chmod 755'
 alias 775='chmod 775'
-alias mx='chmod a+x'
+alias mx='chmod u+x'
 alias perm='stat --printf "%a %n \n "'
 alias restoremod='chgrp users -R .;chmod u=rwX,g=rX,o=rX -R .;chown $(pwd |cut -d / -f 3) -R .'
-
-# zsh is able to auto-do some kungfoo
-# depends on the SUFFIX :)
-#if [ ${ZSH_VERSION//\./} -ge 420 ]; then
-  # open browser on urls
-#  _browser_fts=(htm html de org net com at cx nl se dk dk php)
-#  for ft in $_browser_fts ; do alias -s $ft=$BROWSER ; done
-
-#  _editor_fts=(cpp cxx cc c hh h inl asc txt TXT tex)
-#  for ft in $_editor_fts ; do alias -s $ft=$EDITOR ; done
-
-#  _image_fts=(jpg jpeg png gif mng tiff tif xpm)
-#  for ft in $_image_fts ; do alias -s $ft=$XIVIEWER; done
-
-#  _media_fts=(ape avi flv mkv mov mp3 mpeg mpg ogg ogm rm wav webm)
-#  for ft in $_media_fts ; do alias -s $ft=mplayer ; done
-
-  #read documents
-#  alias -s pdf=acroread
-#  alias -s ps=gv
-#  alias -s dvi=xdvi
-#  alias -s chm=xchm
-#  alias -s djvu=djview
-
-  #list whats inside packed file
-#  alias -s zip="unzip -l"
-#  alias -s rar="unrar l"
-#  alias -s tar="tar tf"
-#  alias -s tar.gz="echo "
-#  alias -s ace="unace l"
-#fi
 
 # Make zsh know about hosts already accessed by SSH
 #zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
-# Functions
-#
+#####################################
+############# FUNCTIONS #############
+#####################################
+
 # Max a box of '#' around given string
-function box() { t="$1xxxx";c=${2:-#}; echo ${t//?/$c}; echo "$c $1 $c"; echo ${t//?/$c}; }
-#
+function dbox() { t="$1xxxx";c=${2:-#}; echo ${t//?/$c}; echo "$c $1 $c"; echo ${t//?/$c}; }
+
 # Find your current IP over Internet
 function myip() { lynx -dump -hiddenlinks=ignore -nolist http://checkip.dyndns.org:8245/ | awk '{ print $4 }' | sed '/^$/d; s/^[ ]*//g; s/[ ]*$//g' }
-#
+
 # Shows network information for your system
-function netinfo()
-{
-   echo "--------------- Network Information ---------------"
-   /sbin/ifconfig | awk /'inet addr/ {print $2}'
-   /sbin/ifconfig | awk /'Bcast/ {print $3}'
-   /sbin/ifconfig | awk /'inet addr/ {print $4}'
-   /sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
-   myip=`lynx -dump -hiddenlinks=ignore -nolist http://checkip.dyndns.org:8245/ | sed '/^$/d; s/^[ ]*//g; s/[ ]*$//g' `
-   echo "${myip}"
-   echo "---------------------------------------------------"
+function netinfo() {
+  echo "--------------- Network Information ---------------"
+  /sbin/ifconfig | awk /'inet addr/ {print $2}'
+  /sbin/ifconfig | awk /'Bcast/ {print $3}'
+  /sbin/ifconfig | awk /'inet addr/ {print $4}'
+  /sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
+  myip=`lynx -dump -hiddenlinks=ignore -nolist http://checkip.dyndns.org:8245/ | sed '/^$/d; s/^[ ]*//g; s/[ ]*$//g' `
+  echo "${myip}"
+  echo "---------------------------------------------------"
 }
-#
+
 # Find & Chmod 755 for directories and 644 for files
-function batch_chmod()
-{
-  env /bin/zsh $ZSH_CUSTOM/tools/batch_chmod.zsh
-}
-#
+function batch_chmod() { env /bin/zsh $ZSH_CUSTOM/tools/batch_chmod.zsh }
+
 # Fix Scaleway servers
-function scaleway_fixer()
-{
+function scaleway_fixer() {
   # /etc/default/ufw
   perl -i -pe's/DEFAULT_INPUT_POLICY="DROP"/DEFAULT_INPUT_POLICY="ACCEPT"/g' /etc/default/ufw
 
   # /etc/ufw/after.rules
   tr '\n' '_' < sed '28s/$/_# fix scaleway NBD stupidity_-A ufw-reject-input -j DROP_/g' after.rules
 }
+
+# Wipe all mosh-server sessions except current session
+function wipe_mosh() { kill $(ps --no-headers --sort=start_time -C mosh-server -o pid | head -n -1) }
