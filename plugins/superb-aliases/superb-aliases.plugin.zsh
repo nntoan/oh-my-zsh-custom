@@ -22,7 +22,7 @@ alias zshrc='nano $HOME/.zshrc' #Quick access to the ~/.zshrc file
 alias nanorc='nano $HOME/.nanorc' #Quick access to ~/.nanorc file
 alias vimrc='nano $HOME/.vimrc'	#Quick access to ~/.vimrc file
 alias superb='nano $SUPERB_ALIAS/superb-aliases.plugin.zsh' #Quick access to ~/.superb-aliases.plugin.zsh
-alias nanoins='cp -r $THIRD_PARTY/nano $HOME/.nano; cat $THIRD_PARTY/nanorc >> $HOME/.nanorc' #Quick install nano
+alias nanoins='cp -r $THIRD_PARTY/nano/* $HOME/.nano/; cat $THIRD_PARTY/nanorc >> $HOME/.nanorc' #Quick install nano
 alias nvimins='mkdir -p $HOME/.config; cp -r $THIRD_PARTY/nvim $HOME/.config/; vi +PlugInstall +qall' #Quick install nvim
 
 alias grep='grep --color'
@@ -198,7 +198,7 @@ function batch_chmod() { env /bin/zsh $ZSH_CUSTOM/tools/batch_chmod.zsh }
 # Fix Scaleway servers
 function scaleway_fixer() {
   # /etc/default/ufw
-  perl -i -pe's/DEFAULT_INPUT_POLICY="DROP"/DEFAULT_INPUT_POLICY="ACCEPT"/g' /etc/default/ufw
+  #perl -i -pe's/DEFAULT_INPUT_POLICY="DROP"/DEFAULT_INPUT_POLICY="ACCEPT"/g' /etc/default/ufw
 
   # /etc/ufw/after.rules
   tr '\n' '_' < sed '28s/$/_# fix scaleway NBD stupidity_-A ufw-reject-input -j DROP_/g' after.rules
