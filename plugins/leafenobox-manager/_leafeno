@@ -1,0 +1,36 @@
+#compdef leafeno
+
+# Leafeno autocompletion
+# Author: Toan Nguyen <nntoan@protonmail.com>
+#
+# This plugin does the following:
+#  - Adds aliases and autocompletion for leafeno
+
+local curcontext="$curcontext" state line ret=1
+_arguments -C \
+    '1: :->cmds' \
+    '*:: :->args' && ret=0
+
+case $state in
+    cmds)
+
+    _values "Leafeno command" \
+        'up[Start leafeno-dev-machine or login if already started]' \
+        'down[Poweroff leafeno-dev-machine]' \
+        'save[Suspend leafeno-dev-machine and save it as a Snapshots]' \
+        'ssh[Login leafeno-dev-machine and start using SSH]' \
+        'restart[Reload Vagrantfile and restart leafeno-dev-machine]'
+        ret=0
+        ;;
+    args)
+        case $line[1] in
+            up)
+            _values "leafeno up command" \
+                'home[Use home connection Vagrantfile]' \
+                'work[Use work connection Vagrantfile]'
+            ;;
+        esac
+        ;;
+esac
+
+return ret
