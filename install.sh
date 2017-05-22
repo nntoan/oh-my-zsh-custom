@@ -166,6 +166,9 @@ main_custom() {
     vagrant)
       cp $ZSH_CUSTOM/templates/zshrc.vagrant ~/.zshrc
     ;;
+    ubuntu)
+      cp $ZSH_CUSTOM/templates/zshrc.ubuntu ~/.zshrc
+    ;;
     root)
       cp $ZSH_CUSTOM/templates/zshrc.root ~/.zshrc
     ;;
