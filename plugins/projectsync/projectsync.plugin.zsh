@@ -36,7 +36,7 @@ function copy-from-workspace {
     exit 1
   fi
 
-  rsync --quiet --recursive $(__get_workspace_dir)/"$target" "$target" 2>/dev/null
+  /usr/local/bin/rsync --quiet --recursive $(__get_workspace_dir)/"$target" "$target" 2>/dev/null
 
   if [ $? -eq 0 ]; then
     echo "${green}OK${reset}"
@@ -52,7 +52,7 @@ function copy-from-clean {
     exit 1
   fi
 
-  rsync --quiet --recursive $(__get_clean_dir)/"$target" "$target" 2>/dev/null
+  /usr/local/bin/rsync --quiet --recursive $(__get_clean_dir)/"$target" "$target" 2>/dev/null
 
   if [ $? -eq 0 ]; then
     echo "${green}OK${reset}"
@@ -71,5 +71,8 @@ function __get_workspace_dir {
 }
 
 function __get_clean_dir {
-  echo "$(__get_current_dir)-clean"
+  local current_dir=$(__get_current_dir)
+  local prepath=${current_dir%/*}-clean
+  local lastpath=${current_dir##*/}
+  echo "$prepath/$lastpath"
 }
