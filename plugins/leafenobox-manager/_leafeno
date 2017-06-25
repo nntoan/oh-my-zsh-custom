@@ -26,8 +26,7 @@ case $state in
         case $line[1] in
             up)
             _values "leafeno up command" \
-                'home[Use home connection Vagrantfile]' \
-                'work[Use work connection Vagrantfile]'
+                '--skip[Skip auto detection network]'
             ;;
         esac
         ;;

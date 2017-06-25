@@ -16,7 +16,7 @@ function leafeno()
     _leafeno_check_status
     case "$1" in
       up)
-        _leafeno_up
+        _leafeno_up "$2"
       ;;
       ssh)
         _leafeno_process_query login
@@ -28,7 +28,7 @@ function leafeno()
         _leafeno_process_query save && `cd $WORKING_DIR`
       ;;
       restart)
-        _leafeno_restart
+        _leafeno_restart "$2"
       ;;
       compact)
         _leafeno_process_compactdisk && _leafeno_up
@@ -46,8 +46,24 @@ function leafeno()
 }
 function _leafeno_up()
 {
+  local skip="$1"
   echo "${fg[blue]}Check current proxy connection...";
-  _leafeno_process_autodetect_config && _leafeno_process_query start
+  case "$1" in
+    --skip)
+      _leafeno_process_query start
+    ;;
+    *)
+      _leafeno_process_autodetect_config && _leafeno_process_query start
+    ;;
+  esac
+  #if [ -z "$skip" ]; then
+  #  echo "${fg[blue]}Skip autodetect process, starting your vagrant now...";
+  #  _leafeno_process_query start
+  #else
+  #  _leafeno_process_autodetect_config && _leafeno_process_query start
+  #fi
+  #echo "${fg[blue]}Check current proxy connection...";
+  #_leafeno_process_autodetect_config && _leafeno_process_query start
 }
 function _leafeno_restart()
 {
