@@ -42,7 +42,7 @@ ZSH_THEME="babun"
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Uncomment the following line to disable iTerm 2 shell integration.
+# Uncomment the following line to enable iTerm 2 shell integration.
 ITERM2_SHELL_INTEGRATION="true"
 
 # Would you like to use another custom folder than $ZSH/custom?
@@ -52,23 +52,16 @@ ZSH_CUSTOM=$ZSH-custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git gitfast git-flow-avh mosh-superb brew osx osx-superb superb-aliases git-aliases n98-magerun-sp gem ruby python vagrant sudo zsh_reload extract wd composer-sp rsync-superb progressbar octobox-manager)
+plugins=(git gitfast encode extract wd zsh_reload sudo ubuntu superb-aliases progressbar composer-sp)
 
 # User configuration
-
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$(brew --prefix homebrew/php/php70)/bin"
-export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 export MANPATH="/usr/local/man:$MANPATH"
-export NVM_DIR="/Users/nntoan/.nvm"
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-export VAGRANTBOX_ID=""
 
-source $NVM_DIR/nvm.sh
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
