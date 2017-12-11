@@ -176,7 +176,7 @@ function _octopius_show_help()
 {
   case "$1" in
     --ansi)
-      echo $fg[black] ""; box "OCTOPIUS DEV MACHINE MANAGER"
+      echo $fg[yellow] ""; dbox "OCTOPIUS DEV MACHINE MANAGER"
 
       echo
 
@@ -202,7 +202,7 @@ function _octopius_show_help()
       echo $fg[green] "compact${reset_color}          Compact virtual disk to save space."
     ;;
     --no-ansi)
-      echo ""; box "OCTOPIUS DEV MACHINE MANAGER"
+      echo ""; dbox "OCTOPIUS DEV MACHINE MANAGER"
 
       echo
 

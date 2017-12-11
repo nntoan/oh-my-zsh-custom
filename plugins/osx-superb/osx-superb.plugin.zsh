@@ -16,7 +16,7 @@ alias gitlab_ci='nano ~/.gitlab-runner/config.toml'
 function _restartdnsmasq()
 {
    local DAEMON="/Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist"
-   sudo launchctl unload -w $DAEMON && sudo launchctl load -w $DAEMON && dscacheutil -flushcache
+   sudo brew services restart dnsmasq && dscacheutil -flushcache
    echo "${fg[green]}Restart DNSMasQ service successfully."
 }
 function _doswapdnshome()
@@ -101,7 +101,7 @@ function mydns()
             _mydns_autodetect
             ;;
         *|help)
-            echo $fg[black] ""; box "MYDNS"
+            echo $fg[yellow] ""; dbox "MYDNS"
 
             echo
 
