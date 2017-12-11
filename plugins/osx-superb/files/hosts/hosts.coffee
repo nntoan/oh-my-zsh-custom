@@ -11,6 +11,29 @@
 ## VietSSE
 202.134.18.52   vsse-netnam
 
+## — Spotify Ads Block
+127.0.0.1 media-match.com
+127.0.0.1 adclick.g.doublecklick.net
+127.0.0.1 googleads.g.doubleclick.net
+127.0.0.1 http://www.googleadservices.com
+127.0.0.1 pagead2.googlesyndication.com
+127.0.0.1 desktop.spotify.com
+127.0.0.1 pubads.g.doubleclick.net
+127.0.0.1 audio2.spotify.com
+## —
+127.0.0.1 crashdump.spotify.com
+127.0.0.1 adeventtracker.spotify.com
+127.0.0.1 log.spotify.com
+127.0.0.1 analytics.spotify.com
+127.0.0.1 ads-fa.spotify.com
+127.0.0.1 audio-ec.spotify.com
+127.0.0.1 heads-ec.spotify.com
+127.0.0.1 prod.spotify.map.fastlylb.net
+127.0.0.1 sto3.spotify.com
+127.0.0.1 spclient.wg.spotify.com
+127.0.0.1 upgrade.spotify.com
+## — Spotify Ads Block End
+
 ## Adobe Blocker
 127.0.0.1 lmlicenses.wip4.adobe.com
 127.0.0.1 lm.licenses.adobe.com
