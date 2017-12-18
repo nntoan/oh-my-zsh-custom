@@ -1,5 +1,6 @@
 address=/.dev/23.9.19.93
 address=/.app/23.9.19.93
+address=/.localhost/127.0.0.1
 
 address=/101com.com/127.0.0.1
 address=/101order.com/127.0.0.1
