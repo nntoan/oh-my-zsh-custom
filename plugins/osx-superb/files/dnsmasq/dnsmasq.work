@@ -1,5 +1,7 @@
 address=/.dev/23.9.19.93
 address=/.app/23.9.19.93
+address=/.test/23.9.19.93
+address=/.balance.vn/23.9.19.93
 address=/.bi/10.0.0.243
 address=/.demo/23.9.19.94
 address=/.localhost/127.0.0.1
