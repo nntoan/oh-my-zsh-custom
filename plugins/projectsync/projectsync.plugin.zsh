@@ -36,6 +36,10 @@ function copy-from-workspace {
     exit 1
   fi
 
+  if [ -d "$target" ]; then
+    target="$1/"
+  fi
+
   /usr/local/bin/rsync --quiet --recursive $(__get_workspace_dir)/"$target" "$target" 2>/dev/null
 
   if [ $? -eq 0 ]; then
@@ -50,6 +54,10 @@ function copy-from-clean {
   if [ $# -eq 0 ]; then
     echo "${red}You need to specified the target file or directory${reset}" >&2
     exit 1
+  fi
+
+  if [ -d "$target" ]; then
+    target="$1/"
   fi
 
   /usr/local/bin/rsync --quiet --recursive $(__get_clean_dir)/"$target" "$target" 2>/dev/null
