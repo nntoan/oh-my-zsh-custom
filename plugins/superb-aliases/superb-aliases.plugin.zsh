@@ -60,7 +60,7 @@ alias last='last -a'
 
 alias whereami=display_info
 
-alias nano='nano -W -$'
+#alias nano='nano'
 alias wget='wget -c'
 alias cls='clear'
 alias contents='/bin/tar -tzf'
