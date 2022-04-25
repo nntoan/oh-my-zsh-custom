@@ -3,11 +3,14 @@ I need to keep track oh-my-zsh custom directory (`$ZSH_CUSTOM`) when I have to w
 
 Thus, that is why this repository present to the world.
 
-- [Getting Started](https://)
-- [Usage](https://)
-
 # Installation
 
+### via curl
+```bash
+sh -c "$(curl -fsSL https://raw.github.com/nntoan/oh-my-zsh-custom/master/install.sh)"
+```
+
+### via wget
 ```bash
 sh -c "$(wget https://raw.github.com/nntoan/oh-my-zsh-custom/master/install.sh -O -)"
 ```
