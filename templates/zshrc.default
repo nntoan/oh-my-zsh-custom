@@ -75,7 +75,7 @@ plugins=(
 
 # User configuration
 
-export PATH="/opt/homebrew/bin:$HOME/.rvm/bin:$HOME/.composer/vendor/bin:$PATH"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.rvm/bin:$HOME/.composer/vendor/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 export NVM_DIR="$HOME/.nvm"
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
