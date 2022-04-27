@@ -28,10 +28,9 @@ if ! is-at-least 5.7; then
       ')"}")
       _describe -t commands 'valet command' subcmds
     else
-      # Required list
-      compadd $($_comp_command1 show -s --no-ansi 2>/dev/null \
-        | sed '1,/requires/d' \
-        | awk 'NF > 0 && !/^requires \(dev\)/{ print $1 }')
+      # Valet's domain list
+      compadd $($_comp_command1 links --no-ansi 2>/dev/null \
+        | awk 'NR>3 && !/^\+/ {gsub("\.[^.]*$","",$2); print $2}')
     fi
   }
 

@@ -11,17 +11,7 @@ _magento () {
   _arguments '*:: :->subcmds'
 
   if (( CURRENT == 1 )); then
-    # Command list
-    local -a subcmds
-    subcmds=("${(@f)"$($_comp_command1 --no-ansi 2>/dev/null | awk '
-      /Available commands/{ r=1 }
-      r == 1 && /^[ \t]*[a-z]+/{
-        gsub(/^[ \t]+/, "")
-        gsub(/  +/, ":")
-        print $0
-      }
-    ')"}")
-    _describe -t commands 'magento command' subcmds
+    $_comp_command1 --no-ansi | sed "1,/Available commands/d" | awk '/^[ \t]*[a-z]+/ { print $1 }'
   fi
 }
 
