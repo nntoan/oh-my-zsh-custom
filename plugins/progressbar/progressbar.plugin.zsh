@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------
 # FILE: progressbar.plugin.zsh
 # DESCRIPTION: Show a progress bar GUI on terminal platform
-# AUTHOR: Toan Nguyen (nntoan at protonmail dot com)
+# AUTHOR: Toan Nguyen (hello at nntoan dot com)
 # VERSION: 1.0.0
 # ------------------------------------------------------------------------------
 

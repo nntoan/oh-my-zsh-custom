@@ -1,25 +1,28 @@
 # ------------------------------------------------------------------------------
 # FILE: magento.plugin.zsh
 # DESCRIPTION: oh-my-zsh magento plugin file.
-# AUTHOR: Toan Nguyen (nntoan at protonmail dot com)
+# AUTHOR: Toan Nguyen (hello at nntoan dot com)
 # VERSION: 1.0.0
 # ------------------------------------------------------------------------------
 
-# magento basic command completion
-_magento_get_command_list () {
-  $_comp_command1 --no-ansi | sed "1,/Available commands/d" | awk '/^ +[a-z\-:]+/ { print $1 }'
-}
-
-
 _magento () {
-  _arguments '1: :->command' '*:optional arg:_files'
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+  _arguments '*:: :->subcmds'
 
-  case $state in
-    command)
-      compadd $(_magento_get_command_list)
-      ;;
-    *)
-  esac
+  if (( CURRENT == 1 )); then
+    # Command list
+    local -a subcmds
+    subcmds=("${(@f)"$($_comp_command1 --no-ansi 2>/dev/null | awk '
+      /Available commands/{ r=1 }
+      r == 1 && /^[ \t]*[a-z]+/{
+        gsub(/^[ \t]+/, "")
+        gsub(/  +/, ":")
+        print $0
+      }
+    ')"}")
+    _describe -t commands 'magento command' subcmds
+  fi
 }
 
 compdef _magento magento

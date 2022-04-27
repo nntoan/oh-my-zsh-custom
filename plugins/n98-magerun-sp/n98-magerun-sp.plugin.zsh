@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # FILE: n98-magerun-sp.plugin.zsh
 # DESCRIPTION: oh-my-zsh n98-magerun plugin file. ServerPilot version 
-# AUTHOR: Toan Nguyen (nntoan at protonmail dot com)
+# AUTHOR: Toan Nguyen (hello at nntoan dot com)
 # VERSION: 1.0.0
 # ------------------------------------------------------------------------------
 

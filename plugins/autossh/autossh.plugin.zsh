@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------
 # FILE: autossh.plugin.zsh
 # DESCRIPTION: This is an SSH-D proxy with auto-reconnect on disconnect
-# AUTHOR: Toan Nguyen (nntoan at protonmail dot com)
+# AUTHOR: Toan Nguyen (hello at nntoan dot com)
 # VERSION: 1.0.0
 # ------------------------------------------------------------------------------
 

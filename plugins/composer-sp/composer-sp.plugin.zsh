@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 #          FILE:  composer-sp.plugin.zsh
 #   DESCRIPTION:  oh-my-zsh-custom composer serverpilot plugin file.
-#        AUTHOR:  Toan Nguyen (nntoan@protonmail.com)
+#        AUTHOR:  Toan Nguyen (hello at nntoan dot com)
 #       VERSION:  1.0.0
 # ------------------------------------------------------------------------------
 

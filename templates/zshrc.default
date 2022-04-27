@@ -61,6 +61,9 @@ plugins=(
   macos
   osx-superb
   superb-aliases
+  composer
+  docker
+  docker-compose
   gem
   ruby
   python
@@ -68,20 +71,16 @@ plugins=(
   sudo
   extract
   wd
-  rsync-superb
-  progressbar
-  octobox-manager
+  valet
 )
 
 # User configuration
 
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.rvm/bin:$HOME/.composer/vendor/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
-export NVM_DIR="$HOME/.nvm"
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 export VAGRANTBOX_ID=""
 
-#source $NVM_DIR/nvm.sh
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
