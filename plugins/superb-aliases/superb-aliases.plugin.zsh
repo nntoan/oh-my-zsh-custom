@@ -75,7 +75,7 @@ alias biggest='BLOCKSIZE=1048576; du -x | sort -nr | head -10'
 alias boothistory='for wtmp in `dir -t /var/log/wtmp*`; do last reboot -f $wtmp; done | less'
 alias charcount='wc -c $1'
 alias cpu_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
-alias df='df -h -x tmpfs -x usbfs'
+alias df='df -h'
 alias directorydiskusage='du -s -k -c * | sort -rn'
 alias diskwho='sudo iotop'
 alias dmidecode='sudo dmidecode --type 17 | more'
@@ -206,3 +206,12 @@ function scaleway_fixer() {
 
 # Wipe all mosh-server sessions except current session
 function wipe_mosh() { kill $(ps --no-headers --sort=start_time -C mosh-server -o pid | head -n -1) }
+
+# Fix utf8mb4_0900_ai_ci collation issue
+function mysql57fix() {
+  local filename="$1"
+  gunzip < "$filename" | sed -e 's/utf8mb4_0900_ai_ci/utf8_general_ci/g' | gzip -c > temp.gz &&
+  gunzip < temp.gz | sed -e 's/CHARSET=utf8mb4/CHARSET=utf8/g' | gzip -c > temp2.gz
+  \/bin/mv temp2.gz "$filename" 2>/dev/null
+  /bin/rm -f temp.gz 2>/dev/null
+}
